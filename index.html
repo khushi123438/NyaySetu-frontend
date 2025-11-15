@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <title>NyayaSetu</title>
+</head>
+<body>
+<!-- Navbar -->
+<header class="navbar">
+  <div class="container nav-content">
+    <h1 class="logo">⚖ NyayaSetu</h1>
+    <nav>
+  <a href="#" class="login-btn">Home</a>
+  <a href="advoacte.html" class="login-btn">Find Advocate</a>
+  <a href="contact.html" class="login-btn">Contact Us</a>
+  <a href="javascript:void(0)" class="login-btn" onclick="toggleChat()">💬 Chatbot</a>
+  <a href="news.html" class="login-btn">LegalNews</a>
+  <a href="login.html" class="login-btn" id="loginLink">Login/Signup</a>
+  <a href="myaccount.html" class="login-btn" id="myAccountLink">My Account</a>
+  <a href="javascript:void(0)" class="login-btn" id="logoutLink" style="display:none;" onclick="logout()">Logout</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Chatbot Container (Initially Hidden) -->
+<div id="chatContainer" style="display:none;">
+  <div class="chat-header">
+    <span>🤖 NyayaSetu Chatbot</span>
+    <button class="close-btn" onclick="toggleChat()">✖</button>
+  </div>
+  <iframe src="/chatbot.html"></iframe>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h2>Find trusted Advocate and Legal Help</h2>
+  <p>Connect with lawyers in your city, get documents and ask our legal chatbot</p>
+  <div class="search-bar">
+    <input type="text" placeholder="Enter your city and Case type">
+    <button onclick="searchAdvocate()">Search</button>
+  </div>
+</section>
+
+<!-- Advocate Section -->
+<section id="advocates" class="section">
+  <h3>👨‍⚖ Find an Advocate</h3>
+  <p>Search advocates by specialization and region</p>
+  <div class="grid">
+    <div class="card">
+      <h4>Criminal law</h4>
+      <p>Experienced lawyers in criminal defense and legal rights</p>
+    </div>
+    <div class="card">
+      <h4>Family law</h4>
+      <p>Divorce, custody, marriage disputes and more</p>
+    </div>
+    <div class="card">
+      <h4>Corporate law</h4>
+      <p>Business contracts, disputes, compliance support</p>
+    </div>
+  </div>
+</section>
+
+<!-- Advocate Profiles (only for advocates) -->
+<section class="advocateprofiles" id="advocateprofiles" style="display:none;">
+  <h3>👨‍⚖ Advocate Profiles</h3>
+  <p>Browse profiles of top advocates in your area</p>
+  <div class="slider-container">
+    <button class="scroll-btn left">⬅</button>
+    <div class="slider" id="slider">
+      <!-- 👇 Advocates dynamically load honge yaha -->
+    </div>
+    <button class="scroll-btn right">➡</button>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <section class="footer" id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <h3>⚖ NyayaSetu</h3>
+        <p>Connect with trusted advocates and get legal help</p>
+        <p>&copy; 2025 Law. All rights reserved.</p>
+      </div>
+    </div>
+  </section>
+</footer>
+
+<script src="script.js"></script>
+
+<!-- ✅ Session check + Logout + Advocates Load -->
+<script>
+const BACKEND = "https://nyaysetu-backend-1-w0hj.onrender.com";
+
+// Session check
+window.addEventListener("load", function() {
+  const loginLink = document.getElementById("loginLink");
+  const myAccountLink = document.getElementById("myAccountLink");
+  const logoutLink = document.getElementById("logoutLink");
+
+  fetch(`${BACKEND}/session`, {
+    credentials: "include"
+  })
+    .then(response => response.json())
+    .then(data => {
+      const advocateProfiles = document.getElementById("advocateprofiles");
+
+      if (data.loggedIn) {
+        if (loginLink) loginLink.style.display = "none";
+        if (myAccountLink) {
+          myAccountLink.textContent = `My Account`;
+          myAccountLink.href = "/myaccount.html";
+          myAccountLink.style.display = "inline-block";
+        }
+        if (logoutLink) logoutLink.style.display = "inline-block";
+        if (advocateProfiles) advocateProfiles.style.display = "block";
+        loadAdvocates();
+      } else {
+        if (myAccountLink) myAccountLink.style.display = "none";
+        if (logoutLink) logoutLink.style.display = "none";
+        if (loginLink) loginLink.style.display = "inline-block";
+        if (advocateProfiles) advocateProfiles.style.display = "none";
+      }
+    })
+    .catch(err => console.error("Error checking session:", err));
+});
+
+// Toggle chatbot
+function toggleChat() {
+  const chatContainer = document.getElementById("chatContainer");
+  chatContainer.style.display = chatContainer.style.display === "block" ? "none" : "block";
+}
+
+// Logout
+function logout() {
+  fetch(`${BACKEND}/logout`, {
+    credentials: "include"
+  })
+    .then(() => {
+      const myAccountLink = document.getElementById("myAccountLink");
+      const logoutLink = document.getElementById("logoutLink");
+      if (myAccountLink) myAccountLink.style.display = "none";
+      if (logoutLink) logoutLink.style.display = "none";
+      window.location.href = "/login.html";
+    });
+}
+
+// Load advocates
+async function loadAdvocates() {
+  try {
+    const res = await fetch(`${BACKEND}/advocates`);
+    const advocates = await res.json();
+
+    const slider = document.getElementById("slider");
+    slider.innerHTML = "";
+
+    advocates.forEach(adv => {
+      if (adv.barid || adv.specialization || adv.experience) {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        const imageSrc = adv.image && adv.image.trim() !== "" ? adv.image : "advocate.webp";
+
+        card.innerHTML = `
+          <img src="${imageSrc}" alt="Advocate Image" onerror="this.src='advocate.webp'" />
+          <h4>${adv.fullname}</h4>
+          <p>${adv.specialization || "General Law"}</p>
+          <p>📍 ${adv.city}, ${adv.state}</p>
+          <button onclick="contactAdvocate('${adv.email}')">Contact</button>
+        `;
+        slider.appendChild(card);
+      }
+    });
+  } catch (err) {
+    console.error("Error loading advocates:", err);
+  }
+}
+
+function contactAdvocate(email) {
+  alert("Contact Advocate at: " + email);
+}
+</script>
+</body>
+</html>

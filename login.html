@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NYAYA SETU - Login/Signup</title>
+<style>
+/* --- Variables and Base Styles --- */
+:root {
+    --color-bg: #7AFAC6;
+    --color-card-bg: #00FFFF;
+    --color-primary-accent: #4f46e5;
+    --color-primary-hover: #3730a3;
+    --color-text-main: #111827;
+    --color-text-secondary: #4b5563;
+    --color-input-border: #93c5fd;
+    --color-input-bg: #ffffff;
+    --color-advocate-box: #e0f7fa;
+    --color-active-bg: #eef2ff;
+    --color-red: #ef4444;
+    --border-radius-card: 3rem;
+    --border-radius-element: 0.75rem;
+    --border-radius-pill: 9999px;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-bg); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+/* --- Card Container --- */
+.card-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 1.5rem 2rem;
+    background-color: var(--color-card-bg);
+    border-radius: var(--border-radius-card);
+    box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    border: 1px solid rgba(0, 0, 0, 0.05); 
+}
+.card-container:hover { transform: scale(1.005); }
+
+/* --- Header Section --- */
+.header-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+.law-icon {
+    font-size: 3rem;
+    margin-bottom: 5px;
+}
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    letter-spacing: 0.1em;
+}
+
+/* --- Role Selector --- */
+.role-selector {
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+    background-color: var(--color-input-bg);
+    border-radius: var(--border-radius-pill);
+    margin-bottom: 2rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05);
+    position: relative;
+    z-index: 2;
+}
+.role-btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    background-color: transparent;
+    color: var(--color-text-secondary);
+    border-radius: var(--border-radius-pill);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+.role-btn:hover:not(.active-role) { color: var(--color-text-main); }
+.active-role {
+    background-color: var(--color-active-bg);
+    color: var(--color-text-main);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+    font-weight: 700;
+    border-bottom: 3px solid var(--color-primary-accent);
+}
+
+/* --- Form --- */
+.form-title {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-main);
+}
+.form-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    z-index: 10;
+}
+.input-field {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--color-input-border);
+    border-radius: var(--border-radius-element);
+    background-color: var(--color-input-bg);
+    color: var(--color-text-main);
+    font-size: 1rem;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+.input-field::placeholder { color: var(--color-text-secondary); }
+.input-field:focus {
+    outline: none;
+    border-color: var(--color-primary-accent);
+    box-shadow: 0 0 0 4px rgba(79,70,229,0.4);
+}
+.form-group-hidden { display: none; flex-direction: column; gap: 1rem; }
+.form-group-visible { display: flex; flex-direction: column; gap: 1rem; }
+
+/* Advocate Box */
+.advocate-box {
+    padding: 1.5rem;
+    border: 1px solid var(--color-input-border);
+    border-radius: 1.5rem;
+    background-color: var(--color-advocate-box);
+}
+.advocate-info {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-primary-accent);
+    margin-bottom: 1rem;
+}
+
+/* File Upload */
+.file-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    cursor: pointer;
+}
+.file-info {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+}
+.file-input {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    color: var(--color-text-secondary);
+}
+.file-input::file-selector-button {
+    padding: 8px 16px;
+    margin-right: 1rem;
+    border: none;
+    border-radius: var(--border-radius-pill);
+    background-color: var(--color-primary-accent);
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.file-input::file-selector-button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 18px;
+    background-color: var(--color-primary-accent);
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 20px -5px rgba(79,70,229,0.4);
+}
+.submit-btn:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Toggle Link */
+.toggle-text-container {
+    text-align: center;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-top: 2rem;
+}
+.toggle-link {
+    background: none;
+    border: none;
+    font-weight: 700;
+    color: var(--color-primary-accent);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.toggle-link:hover {
+    color: var(--color-primary-hover);
+    text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<div class="card-container">
+    <div class="header-section">
+        <span class="law-icon">⚖</span>
+        <h1 class="main-title">NYAYA SETU</h1>
+    </div>
+
+    <div class="role-selector">
+        <button id="role-user" class="role-btn active-role">User</button>
+        <button id="role-advocate" class="role-btn">Advocate</button>
+    </div>
+
+    <h2 id="form-title" class="form-title">User Login</h2>
+
+    <form id="auth-form" class="form-layout">
+        <div id="form-message" aria-live="polite" style="min-height:1.25rem;margin-bottom:8px;color:#b91c1c;font-weight:600;"></div>
+
+        <div id="signup-fields" class="form-group-hidden">
+            <div>
+                <label class="file-label">📸 Upload your Profile Photo <span style="color:var(--color-red)">*</span></label>
+                <p class="file-info">Required for verification (max 5MB, JPG/PNG).</p>
+                <input type="file" id="photo-upload" name="photo" accept="image/*" class="file-input" />
+            </div>
+            <input type="text" name="fullname" placeholder="Full Name" class="input-field" />
+            <input type="tel" name="mobile" placeholder="Mobile Number" class="input-field" />
+            <input type="text" name="city" placeholder="City" class="input-field" />
+            <input type="text" name="state" placeholder="State" class="input-field" />
+            <input type="text" name="pincode" placeholder="Pincode" class="input-field" />
+        </div>
+
+        <div id="advocate-extra" class="form-group-hidden advocate-box">
+            <p class="advocate-info">Advocate Verification Details:</p>
+            <input type="text" name="barid" placeholder="e.g. UP/1234/2021" class="input-field" />
+            <fieldset style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
+                <legend><b>Select Specialization(s):</b></legend>
+                <div><input type="checkbox" name="specialization[]" value="civil"> Civil</div>
+                <div><input type="checkbox" name="specialization[]" value="criminal"> Criminal</div>
+                <div><input type="checkbox" name="specialization[]" value="constitutional"> Constitutional</div>
+                <div><input type="checkbox" name="specialization[]" value="administrative"> Administrative</div>
+                <div><input type="checkbox" name="specialization[]" value="family"> Family</div>
+                <div><input type="checkbox" name="specialization[]" value="commercial"> Commercial</div>
+                <div><input type="checkbox" name="specialization[]" value="labour"> Labour</div>
+                <div><input type="checkbox" name="specialization[]" value="taxation"> Taxation</div>
+                <div><input type="checkbox" name="specialization[]" value="pil"> Public Interest Litigation (PIL)</div>
+            </fieldset>
+            <input type="number" name="experience" placeholder="Experience (Years)" class="input-field" />
+        </div>
+
+        <div class="common-fields-group">
+            <input type="email" name="email" placeholder="Email Address" class="input-field" required />
+            <input type="password" name="password" placeholder="Password" class="input-field" required />
+        </div>
+
+        <input type="hidden" name="role" id="role-field" value="User">
+
+        <button type="submit" id="submit-btn" class="submit-btn">Login</button>
+    </form>
+
+    <p class="toggle-text-container">
+        <span id="toggle-text">Don’t have an account?</span>
+        <button id="toggle-btn" class="toggle-link">Signup</button>
+    </p>
+</div>
+
+<script>
+/* ⭐⭐⭐ ADD YOUR BACKEND URL HERE ⭐⭐⭐ */
+const BASE = "https://nyaysetu-backend-1-w0hj.onrender.com";
+
+
+// UI Logic (same as your file)
+const toggleBtn = document.getElementById("toggle-btn");
+const toggleText = document.getElementById("toggle-text");
+const signupFields = document.getElementById("signup-fields");
+const advocateExtra = document.getElementById("advocate-extra");
+const formTitle = document.getElementById("form-title");
+const submitBtn = document.getElementById("submit-btn");
+const roleUser = document.getElementById("role-user");
+const roleAdvocate = document.getElementById("role-advocate");
+const authForm = document.getElementById("auth-form");
+const roleField = document.getElementById("role-field");
+
+let isLogin = true;
+let role = "User";
+
+function updateForm() {
+    if (isLogin) {
+        signupFields.classList.remove("form-group-visible");
+        advocateExtra.classList.remove("form-group-visible");
+        formTitle.textContent = `${role} Login`;
+        submitBtn.textContent = "Login";
+        toggleBtn.textContent = "Signup";
+        toggleText.textContent = "Don't have an account?";
+    } else {
+        signupFields.classList.add("form-group-visible");
+        formTitle.textContent = `${role} Signup`;
+        submitBtn.textContent = "Create Account";
+        toggleBtn.textContent = "Login";
+        toggleText.textContent = "Already have an account?";
+        if (role === "Advocate") advocateExtra.classList.add("form-group-visible");
+        else advocateExtra.classList.remove("form-group-visible");
+    }
+    if (role === "User") {
+        roleUser.classList.add("active-role");
+        roleAdvocate.classList.remove("active-role");
+    } else {
+        roleAdvocate.classList.add("active-role");
+        roleUser.classList.remove("active-role");
+    }
+    roleField.value = role;
+}
+
+toggleBtn.addEventListener("click", () => {
+    isLogin = !isLogin;
+    updateForm();
+});
+roleUser.addEventListener("click", () => { role = "User"; updateForm(); });
+roleAdvocate.addEventListener("click", () => { role = "Advocate"; updateForm(); });
+
+updateForm();
+
+
+
+/*  ⭐⭐⭐ FORM SUBMIT LOGIC WITH RENDER BACKEND ⭐⭐⭐  */
+
+authForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const msg = document.getElementById('form-message');
+    msg.textContent = '';
+
+    if (isLogin) {
+        // LOGIN (JSON)
+        const email = authForm.email.value.trim();
+        const password = authForm.password.value;
+
+        try {
+            const res = await fetch(`${BASE}/login`, {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                window.location.href = "index.html";
+            } else {
+                msg.textContent = data.message || "Login failed";
+            }
+        } catch (e) {
+            msg.textContent = "Server error";
+        }
+
+    } else {
+        // SIGNUP (FormData)
+        const fd = new FormData(authForm);
+
+        // specialization[]
+        const specs = [...document.querySelectorAll('input[name="specialization[]"]:checked')]
+                        .map(c => c.value);
+        if (specs.length) fd.append("specialization", specs.join(","));
+
+        try {
+            const res = await fetch(`${BASE}/signup`, {
+                method: "POST",
+                credentials: "include",
+                body: fd
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                window.location.href = "index.html";
+            } else {
+                msg.textContent = data.message || "Signup failed";
+            }
+        } catch (e) {
+            msg.textContent = "Server error";
+        }
+    }
+});
+</script>
+</body>
+</html>

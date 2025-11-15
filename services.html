@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nyaya Setu - Our Services</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f8fb;
+      color: #222;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0b5cff;
+      margin-bottom: 20px;
+    }
+    .service {
+      border-left: 4px solid #0b5cff;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      background: #f9faff;
+      border-radius: 6px;
+      transition: transform 0.2s;
+    }
+    .service:hover {
+      transform: translateY(-3px);
+    }
+    h2 {
+      color: #0b5cff;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      margin: 0;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #555;
+    }
+    button {
+      display: block;
+      margin: 25px auto 0;
+      background: #0b5cff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0046e1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Our Services</h1>
+
+    <div class="service">
+      <h2>1. Legal News & Updates</h2>
+      <p>Stay informed with the latest court rulings, legal developments, and justice system updates across India.</p>
+    </div>
+
+    <div class="service">
+      <h2>2. Advocate & Public Profiles</h2>
+      <p>Nyaya Setu connects people with verified advocates and allows users to explore public legal profiles.</p>
+    </div>
+
+    <div class="service">
+      <h2>3. Legal Chatbot Assistance</h2>
+      <p>Our built-in chatbot helps users get instant answers, guidance, and suggestions on legal matters.</p>
+    </div>
+
+    <div class="service">
+      <h2>4. Law Article Submission</h2>
+      <p>Law students, advocates, and citizens can submit articles or case studies to share knowledge and awareness.</p>
+    </div>
+
+    <div class="service">
+      <h2>5. Legal Document Access</h2>
+      <p>Find simplified explanations and templates for common legal documents like affidavits, FIRs, and petitions.</p>
+    </div>
+
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+
+    <footer>
+      © <span id="year"></span> Nyaya Setu. All Rights Reserved.
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
