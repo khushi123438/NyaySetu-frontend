@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="style.css" />
-  <title>NyayaSetu</title>
-  <style>
-    /* Hide body until session check completes to prevent flash */
-    body { visibility: hidden; }
-    #chatContainer { display: none; }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link rel="stylesheet" href="style.css" />
+<title>NyayaSetu</title>
+<style>
+  /* hide body until session check finishes */
+  body { visibility: hidden; }
+  #chatContainer { display: none; }
+</style>
 </head>
 <body>
 
@@ -82,7 +82,7 @@
 
 <!-- Footer -->
 <footer>
-  <section class="footer" id="footer">
+  <section class="footer">
     <div class="container">
       <div class="footer-content">
         <h3>⚖ NyayaSetu</h3>
@@ -96,28 +96,24 @@
 <script>
 const BACKEND = "https://nyaysetu-backend-1-w0hj.onrender.com";
 
-// Navbar elements
+// navbar elements
 const loginLink = document.getElementById("loginLink");
 const myAccountLink = document.getElementById("myAccountLink");
 const logoutLink = document.getElementById("logoutLink");
 const advocateProfiles = document.getElementById("advocateprofiles");
 
-// Chatbot elements
+// chatbot elements
 const chatContainer = document.getElementById("chatContainer");
 const chatBtn = document.getElementById("chatBtn");
 const closeChat = document.getElementById("closeChat");
 
-// Toggle chatbot
-chatBtn.addEventListener("click", () => {
-  chatContainer.style.display = "block";
-});
-closeChat.addEventListener("click", () => {
-  chatContainer.style.display = "none";
-});
+// toggle chatbot
+chatBtn.addEventListener("click", () => chatContainer.style.display = "block");
+closeChat.addEventListener("click", () => chatContainer.style.display = "none");
 
-// Update navbar based on login status
-function updateNavbar(loggedIn) {
-  if (loggedIn) {
+// update navbar
+function updateNavbar(isLoggedIn) {
+  if(isLoggedIn) {
     loginLink.style.display = "none";
     myAccountLink.style.display = "inline-block";
     logoutLink.style.display = "inline-block";
@@ -131,31 +127,31 @@ function updateNavbar(loggedIn) {
   document.body.style.visibility = "visible"; // show body after session check
 }
 
-// Check session on page load
-window.addEventListener("load", async () => {
+// check session
+async function checkSession() {
   try {
     const res = await fetch(`${BACKEND}/session`, { credentials: "include" });
     const data = await res.json();
     updateNavbar(data.loggedIn);
-    if (data.loggedIn) loadAdvocates();
-  } catch (err) {
-    console.error("Session check failed:", err);
-    document.body.style.visibility = "visible"; // show body even if error
+    if(data.loggedIn) loadAdvocates();
+  } catch(e) {
+    console.error("Session check failed:", e);
+    document.body.style.visibility = "visible";
   }
-});
+}
 
-// Logout
+// logout
 logoutLink.addEventListener("click", async () => {
   try {
     await fetch(`${BACKEND}/logout`, { credentials: "include" });
     updateNavbar(false);
     window.location.href = "/login.html";
-  } catch(err){
+  } catch(err) {
     console.error("Logout failed:", err);
   }
 });
 
-// Load advocates dynamically
+// load advocates
 async function loadAdvocates() {
   try {
     const res = await fetch(`${BACKEND}/advocates`);
@@ -175,28 +171,30 @@ async function loadAdvocates() {
       `;
       slider.appendChild(card);
     });
-  } catch(err){
+  } catch(err) {
     console.error("Error loading advocates:", err);
   }
 }
 
-// Contact advocate
-function contactAdvocate(email){
+// contact advocate
+function contactAdvocate(email) {
   alert("Contact Advocate at: " + email);
 }
 
-// Placeholder search
+// placeholder search
 function searchAdvocate() {
   alert("Search functionality not implemented yet.");
 }
 
-// Slider scroll
-function scrollSlider(direction){
+// slider scroll
+function scrollSlider(direction) {
   const slider = document.getElementById("slider");
   const scrollAmount = 300;
-  if(direction === "left") slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-  if(direction === "right") slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  slider.scrollBy({ left: direction === "left" ? -scrollAmount : scrollAmount, behavior: 'smooth' });
 }
+
+// on page load
+window.addEventListener("load", checkSession);
 </script>
 </body>
 </html>
