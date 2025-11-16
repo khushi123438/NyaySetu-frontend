@@ -241,11 +241,11 @@ body {
         <div id="form-message" aria-live="polite" style="min-height:1.25rem;margin-bottom:8px;color:#b91c1c;font-weight:600;"></div>
 
         <div id="signup-fields" class="form-group-hidden">
-            <!-- Signup fields -->
+            <div> <label class="file-label">📸 Upload your Profile Photo <span style="color:var(--color-red)">*</span></label> <p class="file-info">Required for verification (max 5MB, JPG/PNG).</p> <input type="file" id="photo-upload" name="photo" accept="image/*" class="file-input" /> </div> <input type="text" name="fullname" placeholder="Full Name" class="input-field" /> <input type="tel" name="mobile" placeholder="Mobile Number" class="input-field" /> <input type="text" name="city" placeholder="City" class="input-field" /> <input type="text" name="state" placeholder="State" class="input-field" /> <input type="text" name="pincode" placeholder="Pincode" class="input-field" />
         </div>
 
         <div id="advocate-extra" class="form-group-hidden advocate-box">
-            <!-- Advocate extra fields -->
+            <p class="advocate-info">Advocate Verification Details:</p> <input type="text" name="barid" placeholder="e.g. UP/1234/2021" class="input-field" /> <fieldset style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;"> <legend><b>Select Specialization(s):</b></legend> <div><input type="checkbox" name="specialization[]" value="civil"> Civil</div> <div><input type="checkbox" name="specialization[]" value="criminal"> Criminal</div> <div><input type="checkbox" name="specialization[]" value="constitutional"> Constitutional</div> <div><input type="checkbox" name="specialization[]" value="administrative"> Administrative</div> <div><input type="checkbox" name="specialization[]" value="family"> Family</div> <div><input type="checkbox" name="specialization[]" value="commercial"> Commercial</div> <div><input type="checkbox" name="specialization[]" value="labour"> Labour</div> <div><input type="checkbox" name="specialization[]" value="taxation"> Taxation</div> <div><input type="checkbox" name="specialization[]" value="pil"> Public Interest Litigation (PIL)</div> </fieldset> <input type="number" name="experience" placeholder="Experience (Years)" class="input-field" />
         </div>
 
         <div class="common-fields-group">
