@@ -223,6 +223,7 @@ body {
 </head>
 <body>
 
+
 <div class="card-container">
     <div class="header-section">
         <span class="law-icon">⚖</span>
@@ -240,34 +241,11 @@ body {
         <div id="form-message" aria-live="polite" style="min-height:1.25rem;margin-bottom:8px;color:#b91c1c;font-weight:600;"></div>
 
         <div id="signup-fields" class="form-group-hidden">
-            <div>
-                <label class="file-label">📸 Upload your Profile Photo <span style="color:var(--color-red)">*</span></label>
-                <p class="file-info">Required for verification (max 5MB, JPG/PNG).</p>
-                <input type="file" id="photo-upload" name="photo" accept="image/*" class="file-input" />
-            </div>
-            <input type="text" name="fullname" placeholder="Full Name" class="input-field" />
-            <input type="tel" name="mobile" placeholder="Mobile Number" class="input-field" />
-            <input type="text" name="city" placeholder="City" class="input-field" />
-            <input type="text" name="state" placeholder="State" class="input-field" />
-            <input type="text" name="pincode" placeholder="Pincode" class="input-field" />
+            <!-- Signup fields -->
         </div>
 
         <div id="advocate-extra" class="form-group-hidden advocate-box">
-            <p class="advocate-info">Advocate Verification Details:</p>
-            <input type="text" name="barid" placeholder="e.g. UP/1234/2021" class="input-field" />
-            <fieldset style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;">
-                <legend><b>Select Specialization(s):</b></legend>
-                <div><input type="checkbox" name="specialization[]" value="civil"> Civil</div>
-                <div><input type="checkbox" name="specialization[]" value="criminal"> Criminal</div>
-                <div><input type="checkbox" name="specialization[]" value="constitutional"> Constitutional</div>
-                <div><input type="checkbox" name="specialization[]" value="administrative"> Administrative</div>
-                <div><input type="checkbox" name="specialization[]" value="family"> Family</div>
-                <div><input type="checkbox" name="specialization[]" value="commercial"> Commercial</div>
-                <div><input type="checkbox" name="specialization[]" value="labour"> Labour</div>
-                <div><input type="checkbox" name="specialization[]" value="taxation"> Taxation</div>
-                <div><input type="checkbox" name="specialization[]" value="pil"> Public Interest Litigation (PIL)</div>
-            </fieldset>
-            <input type="number" name="experience" placeholder="Experience (Years)" class="input-field" />
+            <!-- Advocate extra fields -->
         </div>
 
         <div class="common-fields-group">
@@ -287,10 +265,8 @@ body {
 </div>
 
 <script>
-/* ⭐⭐⭐ ADD YOUR BACKEND URL HERE ⭐⭐⭐ */
 const BASE = "https://nyaysetu-backend-1-w0hj.onrender.com";
 
-// UI Logic
 const toggleBtn = document.getElementById("toggle-btn");
 const toggleText = document.getElementById("toggle-text");
 const signupFields = document.getElementById("signup-fields");
@@ -322,26 +298,18 @@ function updateForm() {
         if (role === "Advocate") advocateExtra.classList.add("form-group-visible");
         else advocateExtra.classList.remove("form-group-visible");
     }
-    if (role === "User") {
-        roleUser.classList.add("active-role");
-        roleAdvocate.classList.remove("active-role");
-    } else {
-        roleAdvocate.classList.add("active-role");
-        roleUser.classList.remove("active-role");
-    }
     roleField.value = role;
+    roleUser.classList.toggle("active-role", role === "User");
+    roleAdvocate.classList.toggle("active-role", role === "Advocate");
 }
 
-toggleBtn.addEventListener("click", () => {
-    isLogin = !isLogin;
-    updateForm();
-});
+toggleBtn.addEventListener("click", () => { isLogin = !isLogin; updateForm(); });
 roleUser.addEventListener("click", () => { role = "User"; updateForm(); });
 roleAdvocate.addEventListener("click", () => { role = "Advocate"; updateForm(); });
 
 updateForm();
 
-// ⭐⭐⭐ FORM SUBMIT LOGIC FIXED ⭐⭐⭐
+// FORM SUBMIT
 authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const msg = document.getElementById('form-message');
@@ -359,26 +327,21 @@ authForm.addEventListener('submit', async (e) => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })
             });
-
             const data = await res.json();
-
-            // ✅ Check backend success field instead of res.ok
             if (data.success) {
+                // ✅ Update navbar immediately after login
+                localStorage.setItem("nyaysetu-loggedin", "true");
+                localStorage.setItem("nyaysetu-role", role);
                 window.location.href = "index.html";
             } else {
                 msg.textContent = data.message || "Login failed";
             }
-        } catch (e) {
-            msg.textContent = "Server error";
-        }
+        } catch(e) { msg.textContent = "Server error"; }
 
     } else {
         // SIGNUP
         const fd = new FormData(authForm);
-
-        // specialization[]
-        const specs = [...document.querySelectorAll('input[name="specialization[]"]:checked')]
-                        .map(c => c.value);
+        const specs = [...document.querySelectorAll('input[name="specialization[]"]:checked')].map(c=>c.value);
         if (specs.length) fd.append("specialization", specs.join(","));
 
         try {
@@ -387,17 +350,15 @@ authForm.addEventListener('submit', async (e) => {
                 credentials: "include",
                 body: fd
             });
-
             const data = await res.json();
-
             if (data.success) {
+                localStorage.setItem("nyaysetu-loggedin", "true");
+                localStorage.setItem("nyaysetu-role", role);
                 window.location.href = "index.html";
             } else {
                 msg.textContent = data.message || "Signup failed";
             }
-        } catch (e) {
-            msg.textContent = "Server error";
-        }
+        } catch(e) { msg.textContent = "Server error"; }
     }
 });
 </script>

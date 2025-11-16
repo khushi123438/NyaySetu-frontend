@@ -102,15 +102,6 @@ const myAccountLink = document.getElementById("myAccountLink");
 const logoutLink = document.getElementById("logoutLink");
 const advocateProfiles = document.getElementById("advocateprofiles");
 
-// chatbot elements
-const chatContainer = document.getElementById("chatContainer");
-const chatBtn = document.getElementById("chatBtn");
-const closeChat = document.getElementById("closeChat");
-
-// toggle chatbot
-chatBtn.addEventListener("click", () => chatContainer.style.display = "block");
-closeChat.addEventListener("click", () => chatContainer.style.display = "none");
-
 // update navbar
 function updateNavbar(isLoggedIn) {
   if(isLoggedIn) {
@@ -124,7 +115,7 @@ function updateNavbar(isLoggedIn) {
     logoutLink.style.display = "none";
     advocateProfiles.style.display = "none";
   }
-  document.body.style.visibility = "visible"; // show body after session check
+  document.body.style.visibility = "visible"; // show body after check
 }
 
 // check session
@@ -134,8 +125,8 @@ async function checkSession() {
     const data = await res.json();
     updateNavbar(data.loggedIn);
     if(data.loggedIn) loadAdvocates();
-  } catch(e) {
-    console.error("Session check failed:", e);
+  } catch(err) {
+    console.error("Session check failed:", err);
     document.body.style.visibility = "visible";
   }
 }
@@ -151,7 +142,7 @@ logoutLink.addEventListener("click", async () => {
   }
 });
 
-// load advocates
+// load advocates dynamically
 async function loadAdvocates() {
   try {
     const res = await fetch(`${BACKEND}/advocates`);
