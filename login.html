@@ -290,8 +290,7 @@ body {
 /* ⭐⭐⭐ ADD YOUR BACKEND URL HERE ⭐⭐⭐ */
 const BASE = "https://nyaysetu-backend-1-w0hj.onrender.com";
 
-
-// UI Logic (same as your file)
+// UI Logic
 const toggleBtn = document.getElementById("toggle-btn");
 const toggleText = document.getElementById("toggle-text");
 const signupFields = document.getElementById("signup-fields");
@@ -342,17 +341,14 @@ roleAdvocate.addEventListener("click", () => { role = "Advocate"; updateForm(); 
 
 updateForm();
 
-
-
-/*  ⭐⭐⭐ FORM SUBMIT LOGIC WITH RENDER BACKEND ⭐⭐⭐  */
-
+// ⭐⭐⭐ FORM SUBMIT LOGIC FIXED ⭐⭐⭐
 authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const msg = document.getElementById('form-message');
     msg.textContent = '';
 
     if (isLogin) {
-        // LOGIN (JSON)
+        // LOGIN
         const email = authForm.email.value.trim();
         const password = authForm.password.value;
 
@@ -366,7 +362,8 @@ authForm.addEventListener('submit', async (e) => {
 
             const data = await res.json();
 
-            if (res.ok) {
+            // ✅ Check backend success field instead of res.ok
+            if (data.success) {
                 window.location.href = "index.html";
             } else {
                 msg.textContent = data.message || "Login failed";
@@ -376,7 +373,7 @@ authForm.addEventListener('submit', async (e) => {
         }
 
     } else {
-        // SIGNUP (FormData)
+        // SIGNUP
         const fd = new FormData(authForm);
 
         // specialization[]
@@ -393,7 +390,7 @@ authForm.addEventListener('submit', async (e) => {
 
             const data = await res.json();
 
-            if (res.ok) {
+            if (data.success) {
                 window.location.href = "index.html";
             } else {
                 msg.textContent = data.message || "Signup failed";
