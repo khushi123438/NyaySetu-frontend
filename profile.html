@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NyaySetu - Profile</title>
+
+<style>
+/* ===== Universal Styling ===== */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #4f46e5, #75f2f2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ===== Profile Card ===== */
+.profile-card {
+    width: 90%;
+    max-width: 550px;
+    background: #ffffffdd;
+    backdrop-filter: blur(5px);
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    animation: fadeIn 0.7s ease-out;
+}
+
+/* ===== Header ===== */
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    background: linear-gradient(90deg, #4f46e5, #75f2f2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== Profile Rows ===== */
+.profile-row {
+    margin: 6px 0;
+    padding: 12px 15px;
+    background: #f8f9ff;
+    border-left: 5px solid #4f46e5;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-label {
+    font-weight: 700;
+    color: #333;
+}
+
+.exp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exp-value {
+    font-weight: 600;
+}
+
+.profile-options {
+    margin-top: 25px;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.option-item {
+    display: block;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    background: #f3f4f6;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+.option-item:hover {
+    background: #e0e7ff;
+    transform: translateX(4px);
+}
+
+.logout-btn {
+    background: #ffe4e6;
+    color: #b91c1c;
+    font-weight: 600;
+}
+
+.logout-btn:hover {
+    background: #fecdd3;
+    transform: translateX(4px);
+}
+
+
+/* Advocate section spacing */
+#adv-section {
+    margin-top: 1.5rem;
+}
+
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px);}
+    to { opacity: 1; transform: translateY(0);}
+}
+</style>
+
+</head>
+<body>
+
+<div class="profile-card">
+  <h2>Your Profile</h2>
+
+  <div class="profile-row"><span class="profile-label">Name:</span> <span id="profile-name"></span></div>
+  <div class="profile-row"><span class="profile-label">Email:</span> <span id="profile-email"></span></div>
+  <div class="profile-row"><span class="profile-label">Mobile:</span> <span id="profile-mobile"></span></div>
+  <div class="profile-row"><span class="profile-label">City:</span> <span id="profile-city"></span></div>
+  <div class="profile-row"><span class="profile-label">State:</span> <span id="profile-state"></span></div>
+  <div class="profile-row"><span class="profile-label">Pincode:</span> <span id="profile-pincode"></span></div>
+  <div class="profile-row"><span class="profile-label">Role:</span> <span id="profile-role"></span></div>
+  
+  <!-- Advocate-only -->
+  <div id="adv-section" style="display:none;">
+      <div class="profile-row"><span class="profile-label">Bar ID:</span> <span id="profile-barId"></span></div>
+    <div class="profile-row exp-row">
+  <span class="profile-label">Experience:</span>
+  
+  <span class="exp-value">
+    <span id="profile-exp"></span> years
+  </span>
+</div>
+
+      <div class="profile-row"><span class="profile-label">Specialization:</span> <span id="profile-spec"></span></div>
+  </div>
+
+  <div class="profile-options">
+
+    <a href="contact.html" class="option-item">📞 Contact Us</a>
+    <a href="services.html" class="option-item">🛠 Our Services</a>
+    <a href="terms_condn.html" class="option-item">📄 Terms & Conditions</a>
+    <a href="privacypolicy.html" class="option-item">🔒 Privacy Policy</a>
+    <a href="#" class="option-item logout-btn">🚪 Logout</a>
+
+</div>
+
+  
+
+</div>
+
+
+<script>
+const token = localStorage.getItem("userToken");
+
+if (!token) {
+    alert("You are not logged in!");
+    window.location.href = "login.html";
+}
+
+fetch("http://localhost:5000/api/profile", {
+    headers: { "Authorization": "Bearer " + token }
+})
+.then(res => res.json())
+.then(data => {
+    if (!data.success) throw new Error(data.message);
+
+    const user = data.profile;   // ✅ FIXED
+
+    document.getElementById("profile-name").innerText = user.name || "";
+    document.getElementById("profile-email").innerText = user.email || "";
+    document.getElementById("profile-mobile").innerText = user.mobile || "";
+    document.getElementById("profile-city").innerText = user.city || "";
+    document.getElementById("profile-state").innerText = user.state || "";
+    document.getElementById("profile-pincode").innerText = user.pincode || "";
+    document.getElementById("profile-role").innerText = user.role || "";
+
+    if (user.role?.toLowerCase() === "advocate") {
+        document.getElementById("adv-section").style.display = "block";
+        document.getElementById("profile-barId").innerText = user.barId || "";
+        document.getElementById("profile-exp").innerText = user.experience || "";
+        document.getElementById("profile-spec").innerText =
+            (user.specialization || []).join(", ");
+    }
+})
+.catch(err => {
+    console.error(err);
+    alert("Failed to load profile. Try again.");
+});
+
+
+// Logout functionality
+document.querySelector(".logout-btn").addEventListener("click", function() {
+    localStorage.removeItem("userToken");
+    window.location.href = "login.html";
+});
+</script>
+</body>
+</html>

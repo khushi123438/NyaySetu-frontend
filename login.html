@@ -3,364 +3,480 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NYAYA SETU - Login/Signup</title>
+<title>NyaySetu - Login / Signup</title>
+
 <style>
-/* --- Variables and Base Styles --- */
+/*==============================
+  THEME VARIABLES
+==============================*/
 :root {
-    --color-bg: #7AFAC6;
-    --color-card-bg: #00FFFF;
-    --color-primary-accent: #4f46e5;
-    --color-primary-hover: #3730a3;
-    --color-text-main: #111827;
-    --color-text-secondary: #4b5563;
-    --color-input-border: #93c5fd;
-    --color-input-bg: #ffffff;
-    --color-advocate-box: #e0f7fa;
-    --color-active-bg: #eef2ff;
-    --color-red: #ef4444;
-    --border-radius-card: 3rem;
-    --border-radius-element: 0.75rem;
-    --border-radius-pill: 9999px;
+    --bg-gradient: linear-gradient(90deg, #4f46e5, #75f2f2);
+    --card-bg: #ffffff;
+
+    --primary: #4f46e5;
+    --primary-dark: #3730a3;
+
+    --text-main: #111827;
+    --text-secondary: #6b7280;
+
+    --input-border: #93c5fd;
+    --input-bg: #ffffff;
+
+    --advocate-bg: #e0f7fa;
+
+    --radius-card: 3rem;
+    --radius-input: 0.75rem;
+    --radius-pill: 999rem;
 }
 
+/*==============================
+  BASE
+==============================*/
 body {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--color-bg); 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: var(--bg-gradient);
+    font-family: 'Segoe UI', sans-serif;
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 1rem;
 }
 
-/* --- Card Container --- */
-.card-container {
+/*==============================
+  CARD
+==============================*/
+.card {
     width: 100%;
-    max-width: 480px;
-    padding: 1.5rem 2rem;
-    background-color: var(--color-card-bg);
-    border-radius: var(--border-radius-card);
-    box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
-    border: 1px solid rgba(0, 0, 0, 0.05); 
+    max-width: 500px;
+    background: var(--card-bg);
+    border-radius: var(--radius-card);
+    padding: 2.5rem 2.8rem;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
-.card-container:hover { transform: scale(1.005); }
 
-/* --- Header Section --- */
-.header-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/*==============================
+  HEADER
+==============================*/
+.header {
+    text-align: center;
     margin-bottom: 1.5rem;
 }
-.law-icon {
+.header .icon {
     font-size: 3rem;
-    margin-bottom: 5px;
 }
-.main-title {
-    font-size: 2.5rem;
+.header .title {
+    font-size: 2.3rem;
     font-weight: 800;
-    color: var(--color-text-main);
-    letter-spacing: 0.1em;
 }
 
-/* --- Role Selector --- */
-.role-selector {
+/*==============================
+  ROLE SELECT
+==============================*/
+.role-tabs {
     display: flex;
-    justify-content: center;
-    padding: 4px;
-    background-color: var(--color-input-bg);
-    border-radius: var(--border-radius-pill);
+    background: #f3f4f6;
+    padding: 6px;
+    border-radius: var(--radius-pill);
     margin-bottom: 2rem;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 5px 10px rgba(0,0,0,0.05);
-    position: relative;
-    z-index: 2;
 }
 .role-btn {
     flex: 1;
-    padding: 10px 16px;
+    padding: 12px 20px;
     font-size: 1rem;
     font-weight: 600;
+    background: transparent;
     border: none;
-    background-color: transparent;
-    color: var(--color-text-secondary);
-    border-radius: var(--border-radius-pill);
+    border-radius: var(--radius-pill);
+    color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
 }
-.role-btn:hover:not(.active-role) { color: var(--color-text-main); }
-.active-role {
-    background-color: var(--color-active-bg);
-    color: var(--color-text-main);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transform: scale(1.02);
-    font-weight: 700;
-    border-bottom: 3px solid var(--color-primary-accent);
+.role-btn.active {
+    background: #eef2ff;
+    color: var(--primary);
+    border-bottom: 3px solid var(--primary);
 }
 
-/* --- Form --- */
+/*==============================
+  FORM
+==============================*/
 .form-title {
-    font-size: 2rem;
-    font-weight: 700;
     text-align: center;
+    font-size: 1.8rem;
     margin-bottom: 1.5rem;
-    color: var(--color-text-main);
+    font-weight: 700;
 }
-.form-layout {
+
+form {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    position: relative;
-    z-index: 10;
+    gap: 1.25rem;
 }
+
 .input-field {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid var(--color-input-border);
-    border-radius: var(--border-radius-element);
-    background-color: var(--color-input-bg);
-    color: var(--color-text-main);
+    width: 92%;
+    padding: 14px 16px;
+    border-radius: var(--radius-input);
+    border: 1px solid var(--input-border);
+    background: var(--input-bg);
     font-size: 1rem;
-    transition: all 0.2s;
-    box-sizing: border-box;
 }
-.input-field::placeholder { color: var(--color-text-secondary); }
 .input-field:focus {
     outline: none;
-    border-color: var(--color-primary-accent);
-    box-shadow: 0 0 0 4px rgba(79,70,229,0.4);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.35);
 }
-.form-group-hidden { display: none; flex-direction: column; gap: 1rem; }
-.form-group-visible { display: flex; flex-direction: column; gap: 1rem; }
 
-/* Advocate Box */
-.advocate-box {
-    padding: 1.5rem;
-    border: 1px solid var(--color-input-border);
-    border-radius: 1.5rem;
-    background-color: var(--color-advocate-box);
+/*==============================
+  SECTIONS
+==============================*/
+#signup-fields,
+#advocate-fields {
+    display: none;
+    flex-direction: column;
+    gap: 1.1rem;
 }
-.advocate-info {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-primary-accent);
+
+.advocate-box {
+    background: var(--advocate-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid var(--input-border);
+}
+.advocate-title {
+    color: var(--primary);
+    font-weight: 700;
     margin-bottom: 1rem;
 }
 
-/* File Upload */
-.file-label {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-    cursor: pointer;
-}
-.file-info {
-    font-size: 0.8rem;
-    color: var(--color-text-secondary);
-}
-.file-input {
-    display: block;
-    width: 100%;
-    margin-top: 10px;
-    color: var(--color-text-secondary);
-}
+/*==============================
+  FILE INPUT
+==============================*/
 .file-input::file-selector-button {
     padding: 8px 16px;
-    margin-right: 1rem;
-    border: none;
-    border-radius: var(--border-radius-pill);
-    background-color: var(--color-primary-accent);
+    border-radius: var(--radius-pill);
+    background: var(--primary);
     color: white;
-    font-size: 0.875rem;
-    font-weight: 600;
+    border: none;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 .file-input::file-selector-button:hover {
-    background-color: var(--color-primary-hover);
+    background: var(--primary-dark);
 }
 
-/* Submit Button */
+/*==============================
+  BUTTON
+==============================*/
 .submit-btn {
-    width: 100%;
-    padding: 18px;
-    background-color: var(--color-primary-accent);
-    color: white;
-    font-size: 1.125rem;
+    padding: 15px;
+    font-size: 1.2rem;
     font-weight: 700;
+    background: var(--primary);
     border: none;
-    border-radius: 2rem;
+    border-radius: 1.8rem;
+    color: white;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 10px 20px -5px rgba(79,70,229,0.4);
 }
 .submit-btn:hover {
-    background-color: var(--color-primary-hover);
-    transform: translateY(-2px);
+    background: var(--primary-dark);
 }
 
-/* Toggle Link */
-.toggle-text-container {
+/*==============================
+  TOGGLE
+==============================*/
+.toggle {
+    margin-top: 1.5rem;
     text-align: center;
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-    margin-top: 2rem;
 }
-.toggle-link {
-    background: none;
+.toggle-btn {
     border: none;
+    background: none;
+    color: var(--primary);
+    font-size: 1rem;
     font-weight: 700;
-    color: var(--color-primary-accent);
     cursor: pointer;
-    transition: color 0.2s;
 }
-.toggle-link:hover {
-    color: var(--color-primary-hover);
+.toggle-btn:hover {
     text-decoration: underline;
 }
+
+.upload-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.camera-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--primary);
+    transition: 0.2s;
+}
+
+.camera-icon:hover {
+    transform: scale(1.15);
+}
+
 </style>
 </head>
+
 <body>
 
+<div class="card">
 
-<div class="card-container">
-    <div class="header-section">
-        <span class="law-icon">⚖</span>
-        <h1 class="main-title">NYAYA SETU</h1>
+    <div class="header">
+        <div class="icon">⚖</div>
+        <div class="title">NyaySetu</div>
     </div>
 
-    <div class="role-selector">
-        <button id="role-user" class="role-btn active-role">User</button>
-        <button id="role-advocate" class="role-btn">Advocate</button>
+    <div class="role-tabs">
+        <button class="role-btn active" id="btn-user">User</button>
+        <button class="role-btn" id="btn-adv">Advocate</button>
     </div>
 
-    <h2 id="form-title" class="form-title">User Login</h2>
+    <h2 class="form-title" id="form-title">User Login</h2>
 
-    <form id="auth-form" class="form-layout">
-        <div id="form-message" aria-live="polite" style="min-height:1.25rem;margin-bottom:8px;color:#b91c1c;font-weight:600;"></div>
+    <form id="mainForm">
 
-        <div id="signup-fields" class="form-group-hidden">
-            <div> <label class="file-label">📸 Upload your Profile Photo <span style="color:var(--color-red)">*</span></label> <p class="file-info">Required for verification (max 5MB, JPG/PNG).</p> <input type="file" id="photo-upload" name="photo" accept="image/*" class="file-input" /> </div> <input type="text" name="fullname" placeholder="Full Name" class="input-field" /> <input type="tel" name="mobile" placeholder="Mobile Number" class="input-field" /> <input type="text" name="city" placeholder="City" class="input-field" /> <input type="text" name="state" placeholder="State" class="input-field" /> <input type="text" name="pincode" placeholder="Pincode" class="input-field" />
+        <!-- USER SIGNUP FIELDS -->
+        <div id="signup-fields">
+            
+            <input type="text" class="input-field" placeholder="Full Name">
+            <input type="tel" class="input-field" placeholder="Mobile Number">
+            <input type="text" class="input-field" placeholder="City">
+            <input type="text" class="input-field" placeholder="State">
+            <input type="text" class="input-field" placeholder="Pincode">
         </div>
 
-        <div id="advocate-extra" class="form-group-hidden advocate-box">
-            <p class="advocate-info">Advocate Verification Details:</p> <input type="text" name="barid" placeholder="e.g. UP/1234/2021" class="input-field" /> <fieldset style="border: 1px solid #ccc; padding: 15px; border-radius: 8px;"> <legend><b>Select Specialization(s):</b></legend> <div><input type="checkbox" name="specialization[]" value="civil"> Civil</div> <div><input type="checkbox" name="specialization[]" value="criminal"> Criminal</div> <div><input type="checkbox" name="specialization[]" value="constitutional"> Constitutional</div> <div><input type="checkbox" name="specialization[]" value="administrative"> Administrative</div> <div><input type="checkbox" name="specialization[]" value="family"> Family</div> <div><input type="checkbox" name="specialization[]" value="commercial"> Commercial</div> <div><input type="checkbox" name="specialization[]" value="labour"> Labour</div> <div><input type="checkbox" name="specialization[]" value="taxation"> Taxation</div> <div><input type="checkbox" name="specialization[]" value="pil"> Public Interest Litigation (PIL)</div> </fieldset> <input type="number" name="experience" placeholder="Experience (Years)" class="input-field" />
+        <!-- ADVOCATE EXTRA FIELDS -->
+        <div id="advocate-fields" class="advocate-box">
+            <p class="advocate-title">Advocate Verification Details</p>
+
+            <input type="text" class="input-field" placeholder="Bar ID (e.g. UP/1234/2021)">
+            <input type="number" class="input-field" placeholder="Experience (Years)">
+
+            <fieldset style="padding: 12px; border-radius: 10px;">
+                <legend><b>Specialization</b></legend>
+                <label><input type="checkbox"> All</label><br>
+                <label><input type="checkbox"> Civil</label><br>
+                <label><input type="checkbox"> Constitutional</label><br>
+                <label><input type="checkbox"> Criminal</label><br>
+                <label><input type="checkbox"> Family</label><br>
+                <label><input type="checkbox"> Administrative</label><br>
+                <label><input type="checkbox"> Commercial</label><br>
+                <label><input type="checkbox"> Labour</label><br>
+                <label><input type="checkbox"> Taxation</label><br>
+                <label><input type="checkbox"> PIL</label><br>
+               
+            </fieldset>
         </div>
 
-        <div class="common-fields-group">
-            <input type="email" name="email" placeholder="Email Address" class="input-field" required />
-            <input type="password" name="password" placeholder="Password" class="input-field" required />
-        </div>
+        <!-- COMMON FIELDS -->
+        <input type="email" class="input-field" placeholder="Email" required>
+        <input type="password" class="input-field" placeholder="Password" required>
 
-        <input type="hidden" name="role" id="role-field" value="User">
-
-        <button type="submit" id="submit-btn" class="submit-btn">Login</button>
+        <button type="submit" class="submit-btn" id="submit-btn">Login</button>
     </form>
 
-    <p class="toggle-text-container">
-        <span id="toggle-text">Don’t have an account?</span>
-        <button id="toggle-btn" class="toggle-link">Signup</button>
-    </p>
+    <div class="toggle">
+        <span id="toggle-text">Don't have an account?</span>
+        <button class="toggle-btn" id="toggle-btn">Signup</button>
+    </div>
 </div>
 
 <script>
-const BASE = "https://nyaysetu-backend-1-w0hj.onrender.com";
+let isLogin = true; // true = login, false = signup
 
+const userBtn = document.getElementById("btn-user");
+const advBtn = document.getElementById("btn-adv");
+const formTitle = document.getElementById("form-title");
 const toggleBtn = document.getElementById("toggle-btn");
 const toggleText = document.getElementById("toggle-text");
 const signupFields = document.getElementById("signup-fields");
-const advocateExtra = document.getElementById("advocate-extra");
-const formTitle = document.getElementById("form-title");
+const advocateFields = document.getElementById("advocate-fields");
 const submitBtn = document.getElementById("submit-btn");
-const roleUser = document.getElementById("role-user");
-const roleAdvocate = document.getElementById("role-advocate");
-const authForm = document.getElementById("auth-form");
-const roleField = document.getElementById("role-field");
+const mainForm = document.getElementById("mainForm");
 
-let isLogin = true;
-let role = "User";
+let signupRole = "User"; // role selected during signup
 
-function updateForm() {
-    if (isLogin) {
-        signupFields.classList.remove("form-group-visible");
-        advocateExtra.classList.remove("form-group-visible");
-        formTitle.textContent = `${role} Login`;
-        submitBtn.textContent = "Login";
-        toggleBtn.textContent = "Signup";
-        toggleText.textContent = "Don't have an account?";
-    } else {
-        signupFields.classList.add("form-group-visible");
-        formTitle.textContent = `${role} Signup`;
-        submitBtn.textContent = "Create Account";
-        toggleBtn.textContent = "Login";
-        toggleText.textContent = "Already have an account?";
-        if (role === "Advocate") advocateExtra.classList.add("form-group-visible");
-        else advocateExtra.classList.remove("form-group-visible");
-    }
-    roleField.value = role;
-    roleUser.classList.toggle("active-role", role === "User");
-    roleAdvocate.classList.toggle("active-role", role === "Advocate");
+// ===== Toast function =====
+function showToast(message, color = "green", duration = 1500) {
+    const toast = document.createElement("div");
+    toast.innerText = message;
+    toast.style.position = "fixed";
+    toast.style.bottom = "20px";
+    toast.style.right = "20px";
+    toast.style.background = color;
+    toast.style.color = "white";
+    toast.style.padding = "12px 20px";
+    toast.style.borderRadius = "8px";
+    toast.style.boxShadow = "0 4px 12px rgba(0,0,0,0.2)";
+    toast.style.zIndex = "9999";
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), duration);
 }
 
-toggleBtn.addEventListener("click", () => { isLogin = !isLogin; updateForm(); });
-roleUser.addEventListener("click", () => { role = "User"; updateForm(); });
-roleAdvocate.addEventListener("click", () => { role = "Advocate"; updateForm(); });
+// ===== UI update =====
+function updateUI() {
+    formTitle.innerText = `${signupRole} ${isLogin ? "Login" : "Signup"}`;
+    submitBtn.innerText = isLogin ? "Login" : "Create Account";
+    signupFields.style.display = isLogin ? "none" : "flex";
+    advocateFields.style.display = (!isLogin && signupRole === "Advocate") ? "flex" : "none";
+    toggleText.innerText = isLogin ? "Don't have an account?" : "Already have an account?";
+    toggleBtn.innerText = isLogin ? "Signup" : "Login";
 
-updateForm();
+    userBtn.classList.toggle("active", signupRole === "User");
+    advBtn.classList.toggle("active", signupRole === "Advocate");
+}
 
-// FORM SUBMIT
-authForm.addEventListener('submit', async (e) => {
+// ===== Role selection (signup only) =====
+userBtn.onclick = () => { signupRole = "User"; updateUI(); };
+advBtn.onclick = () => { signupRole = "Advocate"; updateUI(); };
+
+// Toggle login/signup
+toggleBtn.onclick = () => { 
+    isLogin = !isLogin; 
+    updateUI(); 
+};
+
+updateUI();
+
+// ===== Form submit =====
+mainForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const msg = document.getElementById('form-message');
-    msg.textContent = '';
 
-    if (isLogin) {
-        // LOGIN
-        const email = authForm.email.value.trim();
-        const password = authForm.password.value;
+    const email = mainForm.querySelector('input[type="email"]').value.trim();
+    const password = mainForm.querySelector('input[type="password"]').value.trim();
 
-        try {
-            const res = await fetch(`${BASE}/login`, {
-                method: "POST",
-                credentials: "include",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
-            const data = await res.json();
-            if (data.success) {
-                // ✅ Update navbar immediately after login
-                localStorage.setItem("nyaysetu-loggedin", "true");
-                localStorage.setItem("nyaysetu-role", role);
-                window.location.href = "index.html";
-            } else {
-                msg.textContent = data.message || "Login failed";
-            }
-        } catch(e) { msg.textContent = "Server error"; }
-
-    } else {
-        // SIGNUP
-        const fd = new FormData(authForm);
-        const specs = [...document.querySelectorAll('input[name="specialization[]"]:checked')].map(c=>c.value);
-        if (specs.length) fd.append("specialization", specs.join(","));
-
-        try {
-            const res = await fetch(`${BASE}/signup`, {
-                method: "POST",
-                credentials: "include",
-                body: fd
-            });
-            const data = await res.json();
-            if (data.success) {
-                localStorage.setItem("nyaysetu-loggedin", "true");
-                localStorage.setItem("nyaysetu-role", role);
-                window.location.href = "index.html";
-            } else {
-                msg.textContent = data.message || "Signup failed";
-            }
-        } catch(e) { msg.textContent = "Server error"; }
+    if (!email || !password) {
+        showToast("Email and Password are required", "red");
+        return;
     }
+
+   if (isLogin) {
+    // ===== LOGIN =====
+    try {
+        const res = await fetch("http://localhost:5000/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ 
+        email, 
+        password, 
+        role: signupRole   // <-- FIXED (remove capitalizing)
+    })
+});
+
+        const data = await res.json();
+        console.log("LOGIN RESPONSE:", data);   // <-- CHECK THIS IN CONSOLE
+
+        if (!res.ok || !data.success) {
+            showToast(data.message || "Invalid credentials", "red");
+            return;
+        }
+localStorage.setItem("userToken", data.token);
+localStorage.setItem("role", data.role || signupRole);
+localStorage.setItem("name", data.user?.name || "");
+localStorage.setItem("email", data.user?.email || "");
+localStorage.setItem("mobile", data.user?.mobile || "");
+
+
+
+        showToast("Login successful!", "green");
+
+        setTimeout(() => {
+            if (data.role?.toLowerCase() === "user")
+                window.location.href = "user.html";
+            else if (data.role?.toLowerCase() === "advocate")
+                window.location.href = "client.html";
+        }, 1000);
+
+    } catch (err) {
+        console.error(err);
+        showToast("Server error, try again later", "red");
+    }
+
+
+     // ===== SIGNUP =====
+} else {
+    try {
+        const name = signupFields.querySelector('input[placeholder="Full Name"]').value.trim();
+        const mobile = signupFields.querySelector('input[placeholder="Mobile Number"]').value.trim() || "";
+        const city = signupFields.querySelector('input[placeholder="City"]').value.trim() || "";
+        const state = signupFields.querySelector('input[placeholder="State"]').value.trim() || "";
+        const pincode = signupFields.querySelector('input[placeholder="Pincode"]').value.trim() || "";
+
+        let barId = "", experience = "", specialization = [];
+        if (signupRole === "Advocate") {
+            barId = advocateFields.querySelector('input[placeholder^="Bar ID"]').value.trim() || "";
+            experience = advocateFields.querySelector('input[placeholder^="Experience"]').value.trim() || "";
+            const checkboxes = advocateFields.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => { 
+                if(cb.checked) specialization.push(cb.nextSibling.textContent.trim()); 
+            });
+        }
+
+        if (!name || !email || !password) {
+            showToast("Name, Email and Password are required", "red");
+            return;
+        }
+
+        // 🔵 USER → /auth/signup
+        // 🔵 ADVOCATE → /advocate/signup
+        let url = "http://localhost:5000/auth/signup";
+        if (signupRole === "Advocate") url = "http://localhost:5000/authAdvocate/signup";
+
+        const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ 
+        name,
+        email,
+        password,
+        mobile,
+        city,
+        state,
+        pincode,
+        role: signupRole,   // <-- Add this line
+        barId,
+        experience,
+        specialization
+    })
+});
+
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success) {
+            showToast(data.message || "Signup failed", "red");
+            return;
+        }
+
+        // Save ALL signup details
+localStorage.setItem("name", name);
+localStorage.setItem("email", email);
+localStorage.setItem("mobile", mobile);
+localStorage.setItem("city", city);
+localStorage.setItem("state", state);
+localStorage.setItem("pincode", pincode);
+localStorage.setItem("role", signupRole);
+
+if (signupRole === "Advocate") {
+    localStorage.setItem("barId", barId);
+    localStorage.setItem("experience", experience);
+    localStorage.setItem("specialization", JSON.stringify(specialization));
+}
+
+
+        showToast("Signup successful! Redirecting to login...", "green");
+        setTimeout(() => { isLogin = true; updateUI(); }, 1500);
+
+    } catch (err) {
+        console.error(err);
+        showToast("Server error, try again later", "red");
+    }
+}
+
 });
 </script>
 </body>
-</html>
+</html>     

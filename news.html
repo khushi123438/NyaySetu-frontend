@@ -1,133 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Law News</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-
-    .news-section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-
-    .news-section h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 2rem;
-      color: #1a237e;
-    }
-
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .news-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .news-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    }
-
-    .news-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .news-content {
-      padding: 15px;
-    }
-
-    .news-content h3 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-    .news-content p {
-      font-size: 0.95rem;
-      color: #555;
-      margin-bottom: 10px;
-    }
-
-    .news-date {
-      font-size: 0.8rem;
-      color: #888;
-      margin-bottom: 10px;
-    }
-
-    .read-more {
-      display: inline-block;
-      padding: 8px 14px;
-      background: #1a237e;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      transition: background 0.3s;
-    }
-
-    .read-more:hover {
-      background: #0d133d;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Legal News - NyaySetu</title>
+<style>
+body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 0; }
+.news-section { max-width: 1200px; margin: auto; padding: 40px 20px; }
+.news-section h2 { text-align: center; margin-bottom: 30px; font-size: 2rem; color: #1a237e; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.news-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+.news-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+.news-card img { width: 100%; height: 180px; object-fit: cover; }
+.news-content { padding: 15px; }
+.news-content h3 { font-size: 1.2rem; margin-bottom: 10px; color: #333; }
+.news-content p { font-size: 0.95rem; color: #555; margin-bottom: 10px; }
+.news-date { font-size: 0.8rem; color: #888; margin-bottom: 10px; }
+.read-more { display: inline-block; padding: 8px 14px; background: #1a237e; color: white; text-decoration: none; border-radius: 6px; font-size: 0.9rem; transition: background 0.3s; }
+.read-more:hover { background: #0d133d; }
+#newsStatus { text-align: center; color: #888; margin-bottom: 20px; font-size: 1rem; }
+</style>
 </head>
 <body>
-  <section class="news-section">
-    <h2>Latest Legal News</h2>
-  <div id="newsStatus" style="text-align:center; color:#888; margin-bottom:10px;"></div>
-  <div class="news-grid" id="newsGrid"></div>
-  </section>
 
-  <script>
-    // Show loading message
-    document.getElementById("newsStatus").textContent = "Loading news...";
-    fetch("https://nyaysetu-backend-1-w0hj.onrender.com/news")
-      .then(res => res.json())
-      .then(data => {
-        const newsGrid = document.getElementById("newsGrid");
-        const newsStatus = document.getElementById("newsStatus");
-        newsGrid.innerHTML = "";
-        if (data.articles && data.articles.length > 0) {
-          newsStatus.textContent = "";
-          data.articles.forEach(article => {
-            const card = document.createElement("div");
-            card.className = "news-card";
-            card.innerHTML = `
-              <img src="${article.urlToImage || 'https://via.placeholder.com/300x180'}" alt="News Image">
-              <div class="news-content">
-                <h3>${article.title}</h3>
-                <p>${article.description || "No description available."}</p>
-                <div class="news-date">${new Date(article.publishedAt).toDateString()}</div>
-                <a href="${article.url}" target="_blank" class="read-more">Read More</a>
-              </div>
-            `;
-            newsGrid.appendChild(card);
-          });
-        } else {
-          newsStatus.textContent = "No news found.";
-        }
-      })
-      .catch(err => {
-        console.error("Error fetching news:", err);
-        document.getElementById("newsStatus").textContent = "Failed to load news. Please try again later.";
-      });
-  </script>
+<section class="news-section">
+  <h2>Latest Legal News</h2>
+  <div id="newsStatus">Loading news...</div>
+  <div class="news-grid" id="newsGrid"></div>
+</section>
+
+<script>
+const newsStatus = document.getElementById("newsStatus");
+const newsGrid = document.getElementById("newsGrid");
+
+async function loadNews() {
+  try {
+    const res = await fetch("http://localhost:5000/news"); // call backend proxy
+    const data = await res.json();
+
+    newsGrid.innerHTML = "";
+
+    if (!data.articles || data.articles.length === 0) {
+      newsStatus.textContent = "No news found at the moment.";
+      return;
+    }
+
+    newsStatus.textContent = "";
+
+    data.articles.forEach(article => {
+      const card = document.createElement("div");
+      card.className = "news-card";
+
+      card.innerHTML = `
+        <img src="${article.urlToImage || 'https://via.placeholder.com/300x180?text=No+Image'}" alt="News Image">
+        <div class="news-content">
+          <h3>${article.title || "No Title"}</h3>
+          <p>${article.description || "No description available."}</p>
+          <div class="news-date">${article.publishedAt ? new Date(article.publishedAt).toDateString() : ""}</div>
+          <a href="${article.url || '#'}" target="_blank" class="read-more">Read More</a>
+        </div>
+      `;
+
+      newsGrid.appendChild(card);
+    });
+
+  } catch (err) {
+    console.error("Error loading news:", err);
+    newsStatus.textContent = "Failed to load news. Please try again later.";
+  }
+}
+
+loadNews();
+</script>
+
 </body>
 </html>

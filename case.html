@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Management – Advocate Dashboard</title>
+<style>
+body { margin:0; font-family:'Segoe UI',sans-serif; background: linear-gradient(90deg,#4f46e5,#75f2f2); color:#000; }
+h1 { text-align:center; color:white; margin-top:30px; font-size:32px; }
+.case-container { max-width:900px; margin:auto; padding:2rem; }
+.case-card { background:#f0f9ff; border:1px solid #bae6fd; padding:1.4rem; border-radius:12px; margin-bottom:1rem; box-shadow:0 3px 10px rgba(0,0,0,0.12); transition:0.3s; }
+.case-card:hover { transform:translateY(-3px); box-shadow:0 6px 16px rgba(0,0,0,0.18); }
+.case-card h3 { color:#1e3a8a; margin-bottom:0.6rem; }
+.case-card p { margin:0.3rem 0; color:#075985; }
+.action-buttons { margin-top: 12px; display: flex; gap: 10px; }
+.accept-btn { background: #22c55e; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; }
+.reject-btn { background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+.accept-btn:hover { background:#16a34a; }
+.reject-btn:hover { background:#dc2626; }
+</style>
+</head>
+<body>
+
+<div class="case-container">
+  <h1>Active Cases</h1>
+  <div id="activeCases"></div>
+</div>
+
+<script>
+const token = localStorage.getItem("userToken");
+
+async function loadActiveCases() {
+    const res = await fetch("http://localhost:5000/api/hire/advocate", {
+        headers: { "Authorization": "Bearer " + token }
+    });
+    const data = await res.json();
+    const container = document.getElementById("activeCases");
+    container.innerHTML = "";
+
+    if (!data.success || data.bookings.length === 0) {
+        container.innerHTML = "<p>No active cases yet.</p>";
+        return;
+    }
+
+    data.bookings.forEach(booking => {
+        if (!booking.user) return;
+
+        const div = document.createElement("div");
+        div.className = "case-card";
+
+        div.innerHTML = `
+          <h3>${booking.user.name}</h3>
+          <p><b>Email:</b> ${booking.user.email}</p>
+          <p><b>Mobile:</b> ${booking.user.mobile}</p>
+          <p><b>City:</b> ${booking.user.city}</p>
+          <p><b>State:</b> ${booking.user.state}</p>
+          <p><b>Pincode:</b> ${booking.user.pincode}</p>
+          <div class="action-buttons">
+              <button class="accept-btn">Accept</button>
+              <button class="reject-btn">Reject</button>
+          </div>
+        `;
+
+        // Accept button
+        const acceptBtn = div.querySelector(".accept-btn");
+        acceptBtn.addEventListener("click", () => {
+            if (!booking.user.email) return alert("Email not available");
+            // Open Gmail in new tab (safer than mailto)
+            window.open(
+                `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(booking.user.email)}&su=Regarding your case`,
+                "_blank"
+            );
+        });
+
+        // Reject button
+        const rejectBtn = div.querySelector(".reject-btn");
+        rejectBtn.addEventListener("click", () => rejectCase(booking._id, rejectBtn));
+
+        container.appendChild(div);
+    });
+}
+
+async function rejectCase(id, btn) {
+    if (!confirm("Are you sure you want to reject this case?")) return;
+    try {
+        const res = await fetch(`http://localhost:5000/api/hire/reject/${id}`, {
+            method: "DELETE",
+            headers: { "Authorization": "Bearer " + token }
+        });
+        const data = await res.json();
+        if (data.success) btn.closest(".case-card").remove();
+        else alert("Failed to reject case");
+    } catch (err) {
+        alert("Server error");
+    }
+}
+
+loadActiveCases();
+</script>
+
+</body>
+</html>
