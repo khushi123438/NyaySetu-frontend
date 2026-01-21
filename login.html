@@ -356,7 +356,7 @@ mainForm.addEventListener("submit", async (e) => {
    if (isLogin) {
     // ===== LOGIN =====
     try {
-        const res = await fetch("nyaysetu-backend.vercel.app/api/auth/login", {
+        const res = await fetch("https://nyaysetu-backend.vercel.app/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ 
@@ -422,8 +422,8 @@ localStorage.setItem("mobile", data.user?.mobile || "");
 
         // 🔵 USER → /auth/signup
         // 🔵 ADVOCATE → /advocate/signup
-        let url = "nyaysetu-backend.vercel.app/api/auth/signup";
-        if (signupRole === "Advocate") url = "nyaysetu-backend.vercel.app/authAdvocate/signup";
+        let url = "https://nyaysetu-backend.vercel.app/api/auth/signup";
+        if (signupRole === "Advocate") url = "https://nyaysetu-backend.vercel.app/authAdvocate/signup";
 
         const res = await fetch(url, {
     method: "POST",
