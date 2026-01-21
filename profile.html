@@ -168,7 +168,7 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-fetch("https://nyaysetu-backend.vercel.app/api/profile", {
+fetch("https://nyaysetu-backend-uefx.onrender.com/api/profile", {
     headers: { "Authorization": "Bearer " + token }
 })
 .then(res => res.json())
