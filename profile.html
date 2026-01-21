@@ -168,7 +168,7 @@ if (!token) {
     window.location.href = "login.html";
 }
 
-fetch("http://localhost:5000/api/profile", {
+fetch("nyaysetu-backend.vercel.app/api/profile", {
     headers: { "Authorization": "Bearer " + token }
 })
 .then(res => res.json())

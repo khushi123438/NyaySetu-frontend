@@ -35,7 +35,7 @@ const newsGrid = document.getElementById("newsGrid");
 
 async function loadNews() {
   try {
-    const res = await fetch("http://localhost:5000/news"); // call backend proxy
+    const res = await fetch("nyaysetu-backend.vercel.app/news"); // call backend proxy
     const data = await res.json();
 
     newsGrid.innerHTML = "";
