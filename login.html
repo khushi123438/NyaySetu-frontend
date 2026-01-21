@@ -356,7 +356,7 @@ mainForm.addEventListener("submit", async (e) => {
    if (isLogin) {
     // ===== LOGIN =====
     try {
-        const res = await fetch("https://nyaysetu-backend.vercel.app/auth/login", {
+        const res = await fetch("https://nyaysetu-backend.vercel.app/api/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ 
