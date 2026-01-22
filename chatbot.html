@@ -31,6 +31,8 @@
 .chatbot-container {
     position: relative; /* now relative to demo-content */
     margin-top: 2rem;
+     width: 100%;
+  max-width: 360px;
     display: flex;
     flex-direction: column;
     align-items: flex-end; /* bubble at bottom-right of content */
@@ -157,6 +159,39 @@
     right: 16px;
     bottom: 16px;
   }
+
+  @media (max-width: 768px) {
+  .chatbot-container {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 9999;
+    width: auto;
+  }
+
+  .chat-window {
+    width: calc(100vw - 32px);
+    max-width: 400px;
+    height: 75vh;              /* responsive height */
+    max-height: 520px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .chat-window {
+    height: 70vh;
+    border-radius: 16px;
+  }
+
+  .chat-header {
+    font-size: 14px;
+  }
+
+  .chat-input {
+    font-size: 13px;
+  }
+}
 }
 
 </style>
@@ -166,7 +201,7 @@
 
 <div class="demo-content">
     <h1>Legal Assistant Chatbot</h1>
-    <p>Click the chat bubble below to start chatting!</p>
+    <p>Click the chat bubble above to start chatting!</p>
 
     <div class="chatbot-container">
         <div class="chat-bubble" id="chatBubble">💬</div>
