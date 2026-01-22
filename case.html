@@ -30,7 +30,7 @@ h1 { text-align:center; color:white; margin-top:30px; font-size:32px; }
 const token = localStorage.getItem("userToken");
 
 async function loadActiveCases() {
-    const res = await fetch("https://nyaysetu-backend-uefx.onrender.com/api/hire/advocate", {
+    const res = await fetch("https://nyaysetu-backend-1-laql.onrender.com/api/hire/advocate", {
         headers: { "Authorization": "Bearer " + token }
     });
     const data = await res.json();
@@ -83,7 +83,7 @@ async function loadActiveCases() {
 async function rejectCase(id, btn) {
     if (!confirm("Are you sure you want to reject this case?")) return;
     try {
-        const res = await fetch(`https://nyaysetu-backend-uefx.onrender.com/api/hire/reject/${id}`, {
+        const res = await fetch(`https://nyaysetu-backend-1-laql.onrender.com/api/hire/reject/${id}`, {
             method: "DELETE",
             headers: { "Authorization": "Bearer " + token }
         });
