@@ -35,7 +35,7 @@ const newsGrid = document.getElementById("newsGrid");
 
 async function loadNews() {
   try {
-    const res = await fetch("https://nyaysetu-backend-1-laql.onrender.com/news"); // call backend proxy
+    const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/news"); // call backend proxy
     const data = await res.json();
 
     newsGrid.innerHTML = "";

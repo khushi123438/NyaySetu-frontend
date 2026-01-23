@@ -356,7 +356,7 @@ mainForm.addEventListener("submit", async (e) => {
    if (isLogin) {
     // ===== LOGIN =====
     try {
-        const res = await fetch("https://nyaysetu-backend-1-laql.onrender.com/auth/login", {
+        const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ 
@@ -422,8 +422,8 @@ localStorage.setItem("mobile", data.user?.mobile || "");
 
         // 🔵 USER → /auth/signup
         // 🔵 ADVOCATE → /advocate/signup
-        let url = "https://nyaysetu-backend-uefx.onrender.com/auth/signup";
-        if (signupRole === "Advocate") url = "https://nyaysetu-backend-uefx.onrender.com/signup";
+        let url = "https://nyaysetu-backend-sme2.onrender.com/auth/signup";
+        if (signupRole === "Advocate") url = "https://nyaysetu-backend-1-laql.onrender.com/advocate/signup";
 
         const res = await fetch(url, {
     method: "POST",
