@@ -423,7 +423,7 @@ localStorage.setItem("mobile", data.user?.mobile || "");
         // 🔵 USER → /auth/signup
         // 🔵 ADVOCATE → /advocate/signup
         let url = "https://nyaysetu-backend-sme2.onrender.com/auth/signup";
-        if (signupRole === "Advocate") url = "https://nyaysetu-backend-1-laql.onrender.com/advocate/signup";
+        if (signupRole === "Advocate") url = "https://nyaysetu-backend-sme2.onrender.com/authAdvocate/signup";
 
         const res = await fetch(url, {
     method: "POST",
