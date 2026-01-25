@@ -298,7 +298,7 @@ closeChat.addEventListener('click', () => {
         showTyping();
 
         try {
-            const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/api/chatbot", {
+            const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/api/chatbot/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message })
