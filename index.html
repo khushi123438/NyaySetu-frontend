@@ -1,228 +1,919 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>NyaySetu - Justice Made Simple</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NyaySetu | AI Powered Legal Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  *{
-    margin:0; padding:0; box-sizing:border-box;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-  }
-  body{
-    background:#f5f7fa;     
-    color:#0f172a;
-    overflow-x:hidden;
-  }
 
-  /* --- Loader --- */
-  #loader{
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background:white;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    z-index:9999;
-    transition: opacity 0.5s ease;
-  }
-  #loader.hidden{
-    opacity:0;
-    visibility:hidden;
-  }
-  .spinner{
-    border:6px solid #f3f3f3;
-    border-top:6px solid #4f46e5;
-    border-radius:50%;
-    width:60px;
-    height:60px;
-    animation: spin 1s linear infinite;
-  }
-  @keyframes spin{
-    0%{ transform: rotate(0deg);}
-    100%{ transform: rotate(360deg);}
-  }
+*{
+ margin:0;
+ padding:0;
+ box-sizing:border-box;
+ font-family:'Inter',sans-serif;
+ scroll-behavior:smooth;
+}
 
-  /* --- Animations --- */
-  @keyframes fadeInUp {
-    0% {opacity:0; transform: translateY(20px);}
-    100% {opacity:1; transform: translateY(0);}
-  }
-  @keyframes fadeIn {
-    0% {opacity:0;}
-    100% {opacity:1;}
-  }
+body{
+ background:#f8fafc;
+ color:#0f172a;
+ overflow-x:hidden;
+}
 
-  /* --- Navbar --- */
-  .navbar{
-    padding:18px 8%;
-    background: linear-gradient(90deg, #4f46e5, #75f2f2);
-    color:white;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:sticky;top:0;
-    z-index:50;
-    box-shadow:0 4px 14px rgba(0,0,0,0.15);
-    opacity:0;
-    animation: fadeIn 1s ease forwards;
-    animation-delay:0.3s;
-  }
-  .navbar h1{
-    font-size:30px;
-    font-weight:700;
-    letter-spacing:1px;
-  }
+.navbar{
+ position:fixed;
+ top:0;
+ width:100%;
+ padding:18px 8%;
+ backdrop-filter:blur(15px);
+ background:rgba(255,255,255,0.7);
+ border-bottom:1px solid #e2e8f0;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ z-index:100;
+}
 
-  /* --- Hero --- */
-  .hero{
-    padding:120px 8%;
-    text-align:center;
-    background:linear-gradient(135deg,#3B82F6,#1E3A8A);
-    color:white;
-    border-bottom-left-radius:60px;
-    border-bottom-right-radius:60px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.15);
-    opacity:0;
-    animation: fadeInUp 1s ease forwards;
-    animation-delay:0.5s;
-  }
-  .hero h2{
-    font-size:3.2rem;
-    font-weight:800;
-    margin-bottom:14px;
-  }
-  .hero p{
-    font-size:1.25rem;
-    opacity:0.95;
-  }
-  .start-btn{
-    margin-top:30px;
-    padding:14px 32px;
-    font-size:1.1rem;
-    background: linear-gradient(135deg, #75f2f2, #4f46e5);
-    color:white;
-    border:none;
-    border-radius:30px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 6px 18px rgba(0,0,0,0.2);
-  }
-  .start-btn:hover{
-    background:#1e3a8a;
-    transform:translateY(-3px);
-  }
+.logo{
+ font-weight:800;
+ font-size:22px;
+ color:#6366f1;
+}
 
-  /* --- Features Section --- */
-  .section{
-    padding:70px 10%;
-    text-align:center;
-    opacity:0;
-    animation: fadeInUp 1s ease forwards;
-    animation-delay:0.8s;
-  }
-  .section h3{
-    font-size:2rem;
-    color:#1e3a8a;
-    margin-bottom:12px;
-  }
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:28px;
-    margin-top:35px;
-  }
-  .card{
-    background: linear-gradient(90deg, #4f46e5, #75f2f2);
-    padding:26px 20px;
-    border-radius:18px;
-    color:white;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
-    transition:0.3s;
-    opacity:0;
-    transform: translateY(20px);
-    animation: fadeInUp 1s ease forwards;
-  }
-  .card:nth-child(1){ animation-delay:1s; }
-  .card:nth-child(2){ animation-delay:1.2s; }
-  .card:nth-child(3){ animation-delay:1.4s; }
+.hero{
+ height:100vh;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ text-align:center;
+ padding:0 8%;
+ position:relative;
+ overflow:hidden;
+}
 
-  .card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 14px 32px rgba(0,0,0,0.18);
-  }
-  .card h4{
-    font-size:1.3rem;
-    margin-bottom:10px;
-    font-weight:700;
-  }
+.hero::before{
+ content:"";
+ position:absolute;
+ width:200%;
+ height:200%;
+ background:radial-gradient(circle at 20% 30%, #6366f1, transparent 40%),
+            radial-gradient(circle at 80% 70%, #38bdf8, transparent 40%);
+ animation:moveGradient 8s infinite alternate;
+}
 
-  /* --- Footer --- */
-  .footer{
-    padding:40px;
-    text-align:center;
-    background:#1e3a8a;
-    color:white;
-    margin-top:60px;
-    opacity:0;
-    animation: fadeInUp 1s ease forwards;
-    animation-delay:1.6s;
-  }
+@keyframes moveGradient{
+ 0%{transform:translate(-10%, -10%)}
+ 100%{transform:translate(10%, 10%)}
+}
+
+.hero-content{
+ position:relative;
+ z-index:2;
+ animation:fadeUp 1.2s ease;
+}
+
+.hero h1{
+ font-size:3rem;
+ font-weight:800;
+}
+
+.hero span{
+ color:#6366f1;
+}
+
+.hero p{
+ margin-top:20px;
+ font-size:18px;
+ color:#475569;
+ max-width:600px;
+ margin:auto;
+}
+
+#contact {
+  margin-top: -40px;   
+  padding-top: 60px;   
+}
+
+#contact {
+  padding-top:60px;
+  padding-bottom:80px;
+}
+
+.section#user-ratings {
+  padding-bottom:60px; 
+}
+
+.section {
+  padding:80px 8%; 
+  text-align:center;
+  background:white; 
+}
+
+.hero-btn{
+ margin-top:30px;
+ padding:15px 40px;
+ border:none;
+ border-radius:40px;
+ background:linear-gradient(90deg,#6366f1,#38bdf8);
+ color:white;
+ font-weight:600;
+ font-size:16px;
+ cursor:pointer;
+ transition:0.3s;
+}
+
+.hero-btn:hover{
+ transform:scale(1.05);
+}
+
+#loader{
+ position:fixed;
+ inset:0;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:rgba(255,255,255,0.85);
+ backdrop-filter:blur(25px);
+ z-index:999999;
+ transition:opacity 0.8s ease;
+}
+
+.loader-glass{
+ width:320px;
+ padding:50px 30px;
+ text-align:center;
+ border-radius:30px;
+ background:rgba(255,255,255,0.6);
+ backdrop-filter:blur(20px);
+ box-shadow:0 30px 80px rgba(0,0,0,0.2);
+ position:relative;
+ overflow:hidden;
+}
+
+
+.loader-logo{
+ font-size:70px;
+ animation:rotate3D 2s infinite linear;
+ display:inline-block;
+}
+
+@keyframes rotate3D{
+ 0%{transform:rotateY(0deg);}
+ 100%{transform:rotateY(360deg);}
+}
+
+.loader-title{
+ font-size:24px;
+ font-weight:800;
+ color:#6366f1;
+ margin-top:10px;
+}
+
+.loader-text{
+ font-size:14px;
+ opacity:0.7;
+ margin-top:10px;
+}
+
+.loader-bar{
+ width:180px;
+ height:6px;
+ margin:20px auto;
+ border-radius:20px;
+ background:linear-gradient(90deg,#6366f1,#38bdf8);
+ animation:barMove 1.5s infinite;
+}
+
+@keyframes barMove{
+ 0%{transform:scaleX(0.3);}
+ 50%{transform:scaleX(1);}
+ 100%{transform:scaleX(0.3);}
+}
+
+.loader-glass::before{
+ content:"";
+ position:absolute;
+ width:200%;
+ height:200%;
+ background-image:radial-gradient(circle,rgba(99,102,241,0.4) 2px, transparent 2px);
+ background-size:20px 20px;
+ animation:particleMove 6s linear infinite;
+ opacity:0.4;
+ top:-50%;
+ left:-50%;
+}
+
+@keyframes particleMove{
+ from{transform:translate(0,0);}
+ to{transform:translate(50px,50px);}
+}
+
+.input-group{
+ position:relative;
+ margin-top:15px;
+}
+
+.input-group input,
+.input-group textarea{
+ width:100%;
+ padding:14px 14px 14px 45px;
+ border-radius:14px;
+ border:1px solid #e2e8f0;
+ font-size:14px;
+ transition:0.3s;
+ background:white;
+}
+
+.input-group input:focus,
+.input-group textarea:focus{
+ outline:none;
+ border-color:#6366f1;
+ box-shadow:0 0 12px rgba(99,102,241,0.2);
+}
+
+.input-icon{
+ position:absolute;
+ left:15px;
+ top:50%;
+ transform:translateY(-50%);
+ font-size:16px;
+ opacity:0.6;
+}
+
+.input-group textarea + .input-icon{
+ top:20px;
+}
+
+
+.contact-btn{
+ margin-top:20px;
+ width:100%;
+ padding:14px;
+ border:none;
+ border-radius:14px;
+ background:#6366f1;
+ color:white;
+ font-weight:600;
+ cursor:pointer;
+ transition:0.3s;
+}
+
+.contact-btn:hover{
+ background:#4f46e5;
+ transform:translateY(-4px);
+}
+
+
+.floating{
+ position:absolute;
+ width:120px;
+ height:120px;
+ background:rgba(99,102,241,0.15);
+ border-radius:50%;
+ animation:floating 6s infinite ease-in-out;
+}
+
+.float1{ top:15%; left:10%;}
+.float2{ bottom:20%; right:15%; animation-delay:2s;}
+
+@keyframes floating{
+ 0%,100%{transform:translateY(0);}
+ 50%{transform:translateY(-20px);}
+}
+
+
+.star{
+ font-size:30px;
+ cursor:pointer;
+ color:#d1d5db;
+ transition:0.3s;
+}
+
+.star.active{
+ color:#facc15;
+}
+
+.section{
+ padding:120px 8%;
+ text-align:center;
+ background:white;
+}
+
+.section h2{
+ font-size:2rem;
+ margin-bottom:60px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+ gap:30px;
+}
+
+.card{
+ padding:40px;
+ border-radius:22px;
+ border:1px solid #e2e8f0;
+ background:white;
+ box-shadow:0 15px 40px rgba(0,0,0,0.04);
+ transition:0.4s;
+ opacity:0;
+ transform:translateY(40px);
+}
+
+.card.show{
+ opacity:1;
+ transform:translateY(0);
+}
+
+.card:hover{
+ transform:translateY(-8px);
+ box-shadow:0 20px 50px rgba(0,0,0,0.08);
+}
+
+.card h3{
+ color:#6366f1;
+ margin-bottom:12px;
+}
+
+
+.rating-input{
+ width:100%;
+ padding:14px;
+ border-radius:12px;
+ border:1px solid #e2e8f0;
+ margin-top:12px;
+ font-size:14px;
+ transition:0.3s;
+}
+
+.rating-input:focus{
+ outline:none;
+ border-color:#6366f1;
+ box-shadow:0 0 10px rgba(99,102,241,0.3);
+}
+
+.testimonial-wrapper{
+ overflow:hidden;
+ width:100%;
+ margin-top:50px;
+}
+
+.testimonial-track{
+ display:flex;
+ gap:30px;
+ transition:transform 0.6s ease;
+}
+
+.testimonial-card{
+ min-width:300px;
+ background:white;
+ padding:30px;
+ border-radius:20px;
+ box-shadow:0 15px 35px rgba(0,0,0,0.05);
+ text-align:left;
+ flex-shrink:0;
+}
+
+.rating-btn{
+ margin-top:18px;
+ width:100%;
+ padding:14px;
+ border:none;
+ border-radius:14px;
+ background:#6366f1;
+ color:white;
+ font-weight:600;
+ cursor:pointer;
+ transition:0.3s;
+}
+
+.rating-btn:hover{
+ background:#4f46e5;
+ transform:translateY(-3px);
+}
+
+.star{
+ cursor:pointer;
+ color:#d1d5db;
+ transition:0.3s;
+}
+
+.star:hover,
+.star.active{
+ color:#facc15;
+ transform:scale(1.2);
+}
+
+
+.footer{
+ padding:40px;
+ background:#0f172a;
+ color:white;
+ text-align:center;
+}
+
+.footer a:hover{
+ opacity:1 !important;
+ color:#6366f1 !important;
+ transition:0.3s;
+}
+
+
+@keyframes fadeUp{
+ from{opacity:0; transform:translateY(40px);}
+ to{opacity:1; transform:translateY(0);}
+}
+
+@media(max-width:768px){
+
+ .hero h1{
+   font-size:2rem;
+ }
+
+ .hero p{
+   font-size:14px;
+ }
+
+ .grid{
+   grid-template-columns:1fr;
+ }
+
+ .testimonial-card{
+   min-width:250px;
+ }
+
+ .navbar{
+   padding:15px 5%;
+ }
+
+ .section{
+   padding:60px 5%;
+ }
+
+}
+
 </style>
 </head>
-
 <body>
 
-<!-- Loader -->
 <div id="loader">
-  <div class="spinner"></div>
+  <div class="loader-glass">
+    <div class="loader-particles"></div>
+    <div class="loader-logo">⚖</div>
+    <div class="loader-title">NyaySetu</div>
+    <div class="loader-bar"></div>
+    <div class="loader-text">Securing Justice Platform...</div>
+  </div>
 </div>
 
-<header class="navbar">
-  <h1>⚖ NyaySetu</h1>
-</header>
 
-<section class="hero">
-  <h2>Justice Made Simple. Accessible. Human.</h2>
-  <p>Your bridge to trusted advocates, guidance, and clarity.</p>
-  <button class="start-btn" onclick="window.location.href='login.html'">
-    Get Started →
+<nav class="navbar">
+ <div class="logo">⚖ NyaySetu</div>
+</nav>
+
+<section class="hero" id="home">
+ <div class="floating float1"></div>
+ <div class="floating float2"></div>
+
+ <div class="hero-content">
+  <h1>AI Powered <span>Legal Platform</span></h1>
+  <p>
+   Connect with verified advocates, intelligent legal guidance,
+   and enterprise document support — built for modern justice.
+  </p>
+
+  <button class="hero-btn" onclick="window.location.href='login.html'">
+   Get Started →
   </button>
+ </div>
 </section>
 
-<section class="section">
-  <h3>Why NyaySetu?</h3>
-  <div class="grid">
-    <div class="card">
-      <h4>🔍 Find Advocates Easily</h4>
-      <p>Search verified legal experts by specialization and city.</p>
-    </div>
-    <div class="card">
-      <h4>🤖 Smart Legal Chatbot</h4>
-      <p>Get quick answers to common legal questions 24/7.</p>
-    </div>
-    <div class="card">
-      <h4>📄 Legal Documents</h4>
-      <p>Access ready-to-use legal templates and resources.</p>
-    </div>
+<section class="section" id="features">
+ <h2>Enterprise Features</h2>
+
+ <div class="grid">
+  <div class="card">
+   <h3>🔎 Smart Advocate Search</h3>
+   <p>Find trusted legal experts with ratings & specialization.</p>
   </div>
+
+  <div class="card">
+   <h3>🤖 AI Legal Assistant</h3>
+   <p>Instant legal analysis powered by intelligent AI system.</p>
+  </div>
+
+  <div class="card">
+   <h3>📄 Document Automation</h3>
+   <p>Generate professional legal documents in seconds.</p>
+  </div>
+ </div>
 </section>
 
-<footer class="footer">
-  <h3>⚖ NyaySetu</h3>
-  <p>Empowering justice with technology.</p>
-  <p>© 2025 NyaySetu</p>
+
+<section class="section" id="testimonials" style="background:#eef2ff;" id="testimonials">
+
+<h2>What Our Users Say 💬</h2>
+
+<div class="testimonial-wrapper">
+
+<div class="testimonial-track" id="testimonialTrack">
+
+<div class="testimonial-card">
+“NyaySetu helped me find the right advocate instantly.”  
+<br><br> - Priya, Student
+</div>
+
+<div class="testimonial-card">
+“The AI guidance simplified my legal confusion.”  
+<br><br> - Rahul, Business Owner
+</div>
+
+<div class="testimonial-card">
+“Professional platform with great support.”  
+<br><br> - Aditi, Freelancer
+</div>
+
+<div class="testimonial-card">
+“Very intuitive interface and fast responses.”  
+<br><br> - Karan, Engineer
+</div>
+
+<div class="testimonial-card">
+“It saved me hours of legal research!”  
+<br><br> - Neha, Teacher
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="section" id="ratings" style="background:#eef2ff;">
+<h2>User Ratings ⭐</h2>
+
+<div class="card" style="max-width:550px;margin:auto;text-align:left;">
+
+<p style="font-weight:600;margin-bottom:10px;">Rate Your Experience</p>
+
+<div id="stars" style="font-size:32px;margin-bottom:15px;">
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+<span class="star">★</span>
+</div>
+
+
+<input type="text" placeholder="Your Name" class="rating-input">
+
+<textarea placeholder="Write your feedback..." class="rating-input" style="height:100px;"></textarea>
+
+<button class="rating-btn">
+Submit Rating
+</button>
+
+</div>
+</section>
+
+<section class="section" id="contact" style="background:#f8fafc;">
+<h2>Contact Us 📬</h2>
+
+<div class="card" style="max-width:600px;margin:auto;text-align:left;">
+
+<p style="font-weight:600;margin-bottom:20px;">
+We'd love to hear from you
+</p>
+
+<!-- Name -->
+<div class="input-group">
+<span class="input-icon">👤</span>
+<input type="text" placeholder="Your Full Name">
+</div>
+
+<!-- Email -->
+<div class="input-group">
+<span class="input-icon">📧</span>
+<input type="email" placeholder="Your Email Address">
+</div>
+
+<!-- Message -->
+<div class="input-group">
+<span class="input-icon">💬</span>
+<textarea placeholder="Your Message" style="height:120px;"></textarea>
+</div>
+
+<button class="contact-btn">
+Send Message
+</button>
+
+</div>
+</section>
+
+
+<section class="section" style="background:#f8fafc;">
+<h2>Platform Impact 🚀</h2>
+
+<div class="grid">
+
+<div class="card">
+<h3>⚖ 5,000+</h3>
+<p>Cases Handled</p>
+</div>
+
+<div class="card">
+<h3>👩‍⚖ 1,200+</h3>
+<p>Verified Advocates</p>
+</div>
+
+<div class="card">
+<h3>👥 10,000+</h3>
+<p>Active Users</p>
+</div>
+
+<div class="card">
+<h3>🤖 25,000+</h3>
+<p>AI Queries Solved</p>
+</div>
+
+</div>
+</section>
+
+<section class="section" id="privacy" style="display:none; background:white;">
+
+<h2>Privacy Policy</h2>
+
+<div class="card" style="max-width:800px;margin:auto;text-align:left;">
+
+<p>
+NyaySetu respects user privacy. We collect basic information like name,
+email and legal queries to improve our services.
+</p>
+
+<br>
+
+<p>
+<ul>
+<li>Data is securely stored</li>
+<li>No data is shared with third parties</li>
+<li>AI queries may be stored for improvement</li>
+</ul>  
+</p>
+
+<br>
+
+<button onclick="togglePrivacy()" 
+style="padding:10px 20px; border:none; background:#6366f1; color:white; border-radius:8px; cursor:pointer;">
+Close
+</button>
+
+</div>
+
+</section>
+
+<section class="section" id="terms" style="display:none; background:#f8fafc;">
+
+<h2>Terms & Conditions</h2>
+
+<div class="card" style="max-width:800px;margin:auto;text-align:left;">
+
+<p>
+By using NyaySetu, users agree to follow platform rules and guidelines.
+</p>
+
+<br>
+
+<p>
+<ul>
+<li> No misuse of AI legal assistance</li>
+<li> No illegal activities allowed</li>
+<li> Platform can remove abusive accounts anytime</li>  
+</ul>
+</p>
+
+<br>
+
+<button onclick="toggleTerms()" 
+style="padding:10px 20px; border:none; background:#6366f1; color:white; border-radius:8px; cursor:pointer;">
+Close
+</button>
+
+</div>
+
+</section>
+
+<section class="section" id="refund" style="display:none; background:white;">
+
+<h2>Refund Policy</h2>
+
+<div class="card" style="max-width:800px;margin:auto;text-align:left;">
+
+<p>
+Refunds apply only to paid premium services.
+</p>
+
+<br>
+
+<p>
+<ul>
+<li>Refund request within 7 days</li>  
+<li>Subject to verification</li>  
+<li>No refund for completed consultations</li>  
+</ul>
+</p>
+
+<br>
+
+<button onclick="toggleRefund()" 
+style="padding:10px 20px; border:none; background:#6366f1; color:white; border-radius:8px; cursor:pointer;">
+Close
+</button>
+
+</div>
+
+</section>
+
+<footer class="footer" style="padding:80px 8%; background:#0f172a; color:white;">
+
+<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:40px; text-align:left;">
+
+<div>
+<h3 style="margin-bottom:15px;">⚖ NyaySetu</h3>
+<p style="opacity:0.8;">
+AI Powered Legal Ecosystem connecting users with verified advocates and smart legal guidance.
+</p>
+</div>
+
+
+<div>
+<h3 style="margin-bottom:15px;">Quick Links</h3>
+<p><a href="#home" style="color:white;text-decoration:none;opacity:0.8;">Home</a></p>
+<p><a href="#features" style="color:white;text-decoration:none;opacity:0.8;">Features</a></p>
+<p><a href="#testimonials" style="color:white;text-decoration:none;opacity:0.8;">Testimonials</a></p>
+<p><a href="#ratings" style="color:white;text-decoration:none;opacity:0.8;">Rate Us</a></p>
+<p><a href="#contact" style="color:white;text-decoration:none;opacity:0.8;">Contact Us</a></p>
+</div>
+
+
+<div>
+<h3 style="margin-bottom:15px;">Legal</h3>
+<p>
+<a href="javascript:void(0)" onclick="togglePrivacy()"
+style="color:white;text-decoration:none;opacity:0.8;">
+Privacy Policy
+</a>
+</p>
+
+<p>
+<a href="javascript:void(0)" onclick="toggleTerms()"
+style="color:white;text-decoration:none;opacity:0.8;">
+Terms & Conditions
+</a>
+</p>
+
+<p>
+<a href="javascript:void(0)" onclick="toggleRefund()"
+style="color:white;text-decoration:none;opacity:0.8;">
+Refund Policy
+</a>
+</p>
+</div>
+
+<div>
+<h3 style="margin-bottom:15px;">Contact</h3>
+<p>📧 support@nyaysetu.com</p>
+<p>📍 India</p>
+<p>📞 +91 6388465277</p>
+</div>
+
+</div>
+
+<hr style="margin:50px 0; border:0; border-top:1px solid rgba(255,255,255,0.2);">
+
+<div style="text-align:center; opacity:0.7;">
+© 2026 NyaySetu. All Rights Reserved. | Built for Digital Justice ⚖
+</div>
+
 </footer>
 
 <script>
-  // Hide loader when page fully loads
-  window.addEventListener("load", () => {
-    const loader = document.getElementById("loader");
-    loader.classList.add("hidden");
-  });
+
+window.addEventListener("load",()=>{
+ document.getElementById("loader").style.display="none";
+});
+
+
+const cards = document.querySelectorAll(".card");
+
+const observer = new IntersectionObserver(entries=>{
+ entries.forEach(entry=>{
+   if(entry.isIntersecting){
+     entry.target.classList.add("show");
+   }
+ });
+},{threshold:0.2});
+
+cards.forEach(card=>{
+ observer.observe(card);
+});
+
+
+
+document.querySelectorAll(".star").forEach(star=>{
+ star.addEventListener("click",()=>{
+   document.querySelectorAll(".star").forEach(s=>s.classList.remove("active"));
+   star.classList.add("active");
+ });
+});
+
+document.querySelectorAll(".star").forEach((star,index)=>{
+ star.addEventListener("mouseover",()=>{
+   document.querySelectorAll(".star").forEach((s,i)=>{
+     s.classList.toggle("active", i <= index);
+   });
+ });
+
+ star.addEventListener("click",()=>{
+   document.querySelectorAll(".star").forEach((s,i)=>{
+     s.classList.toggle("active", i <= index);
+   });
+ });
+});
+
+const track = document.getElementById("testimonialTrack");
+let scrollAmount = 0;
+
+function autoScrollTestimonials() {
+
+  scrollAmount += 330; // card width + gap
+
+  if(scrollAmount >= track.scrollWidth - track.clientWidth){
+    scrollAmount = 0;
+  }
+
+  track.style.transform = `translateX(-${scrollAmount}px)`;
+}
+
+setInterval(autoScrollTestimonials, 1000);
+
+document.addEventListener("DOMContentLoaded",function(){
+
+ const loader = document.getElementById("loader");
+
+ setTimeout(()=>{
+   loader.style.opacity = "0";
+   setTimeout(()=>{
+     loader.style.display = "none";
+   },800);
+ },20000); 
+
+});
+
+function togglePrivacy(){
+
+  const section = document.getElementById("privacy");
+
+  if(section.style.display === "none"){
+    section.style.display = "block";
+    section.scrollIntoView({behavior:"smooth"});
+  } 
+  else{
+    section.style.display = "none";
+  }
+
+}
+
+function toggleTerms(){
+
+  const section = document.getElementById("terms");
+
+  if(section.style.display === "none"){
+    section.style.display = "block";
+    section.scrollIntoView({behavior:"smooth"});
+  } 
+  else {
+    section.style.display = "none";
+  }
+}
+
+
+function toggleRefund(){
+
+  const section = document.getElementById("refund");
+
+  if(section.style.display === "none"){
+    section.style.display = "block";
+    section.scrollIntoView({behavior:"smooth"});
+  } 
+  else {
+    section.style.display = "none";
+  }
+}
 </script>
 
 </body>

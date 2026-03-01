@@ -230,8 +230,8 @@ form {
     </div>
 
     <div class="role-tabs">
-        <button class="role-btn active" id="btn-user">User</button>
-        <button class="role-btn" id="btn-adv">Advocate</button>
+        <button type="button" class="role-btn active" id="btn-user">User</button>
+        <button type="button" class="role-btn" id="btn-adv">Advocate</button>
     </div>
 
     <h2 class="form-title" id="form-title">User Login</h2>
@@ -280,7 +280,7 @@ form {
 
     <div class="toggle">
         <span id="toggle-text">Don't have an account?</span>
-        <button class="toggle-btn" id="toggle-btn">Signup</button>
+       <button type="button" class="toggle-btn" id="toggle-btn">Signup</button>
     </div>
 </div>
 
@@ -354,6 +354,8 @@ mainForm.addEventListener("submit", async (e) => {
     }
 
    if (isLogin) {
+    submitBtn.disabled = true; 
+   
     // ===== LOGIN =====
     try {
         const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/auth/login", {
@@ -393,11 +395,15 @@ localStorage.setItem("mobile", data.user?.mobile || "");
     } catch (err) {
         console.error(err);
         showToast("Server error, try again later", "red");
+    } finally {
+        submitBtn.disabled = false; 
     }
 
 
      // ===== SIGNUP =====
 } else {
+        submitBtn.disabled = true; 
+   
     try {
         const name = signupFields.querySelector('input[placeholder="Full Name"]').value.trim();
         const mobile = signupFields.querySelector('input[placeholder="Mobile Number"]').value.trim() || "";
@@ -473,6 +479,8 @@ if (signupRole === "Advocate") {
     } catch (err) {
         console.error(err);
         showToast("Server error, try again later", "red");
+    }finally {
+        submitBtn.disabled = false;
     }
 }
 
