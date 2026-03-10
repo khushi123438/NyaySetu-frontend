@@ -6,7 +6,7 @@
 <title>NyaySetu - Profile</title>
 
 <style>
-/* ===== Universal Styling ===== */
+
 body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
@@ -18,7 +18,6 @@ body {
     align-items: center;
 }
 
-/* ===== Profile Card ===== */
 .profile-card {
     width: 90%;
     max-width: 550px;
@@ -30,7 +29,6 @@ body {
     animation: fadeIn 0.7s ease-out;
 }
 
-/* ===== Header ===== */
 h2 {
     text-align: center;
     margin-bottom: 1.5rem;
@@ -40,7 +38,6 @@ h2 {
     -webkit-text-fill-color: transparent;
 }
 
-/* ===== Profile Rows ===== */
 .profile-row {
     margin: 6px 0;
     padding: 12px 15px;
@@ -103,14 +100,10 @@ h2 {
     transform: translateX(4px);
 }
 
-
-/* Advocate section spacing */
 #adv-section {
     margin-top: 1.5rem;
 }
 
-
-/* ===== Animations ===== */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px);}
     to { opacity: 1; transform: translateY(0);}
@@ -175,7 +168,7 @@ fetch("https://nyaysetu-backend-sme2.onrender.com/api/profile", {
 .then(data => {
     if (!data.success) throw new Error(data.message);
 
-    const user = data.profile;   // ✅ FIXED
+    const user = data.profile;
 
     document.getElementById("profile-name").innerText = user.name || "";
     document.getElementById("profile-email").innerText = user.email || "";
@@ -199,7 +192,6 @@ fetch("https://nyaysetu-backend-sme2.onrender.com/api/profile", {
 });
 
 
-// Logout functionality
 document.querySelector(".logout-btn").addEventListener("click", function() {
     localStorage.removeItem("userToken");
     window.location.href = "login.html";

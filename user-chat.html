@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>User Chat</title>
+<style>
+body{margin:0;font-family:Segoe UI;background:#e5ddd5;display:flex;justify-content:center;align-items:center;height:100vh;}
+.main-container{width:900px;height:600px;display:flex;border-radius:12px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,0.15);border:1px solid #dcdcdc;background:white;}
+.client-list{width:35%;background:white;border-right:1px solid #e0e0e0;display:flex;flex-direction:column;overflow-y:scroll;}
+.client-header{background:#128C7E;color:white;padding:15px;font-weight:bold;}
+.client{padding:12px 15px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:0.2s;}
+.client:hover{background:#f7f7f7;}
+.chat-container{width:65%;display:flex;flex-direction:column;background:white;border-left:1px solid #e0e0e0;}
+.chat-header{background:#128C7E;color:white;padding:15px;font-size:18px;font-weight:bold;display:flex;justify-content:space-between;}
+.chat-messages{flex:1;padding:10px;background:#f0f0f0;overflow-y:scroll;display:flex;flex-direction:column;scrollbar-width:thin;}
+.client-list::-webkit-scrollbar,.chat-messages::-webkit-scrollbar{width:8px;}
+.client-list::-webkit-scrollbar-track,.chat-messages::-webkit-scrollbar-track{background:#f1f1f1;}
+.client-list::-webkit-scrollbar-thumb,.chat-messages::-webkit-scrollbar-thumb{background:#bcbcbc;border-radius:10px;}
+.client-list::-webkit-scrollbar-thumb:hover,.chat-messages::-webkit-scrollbar-thumb:hover{background:#888;}
+.message{padding:8px 12px;margin:6px 0;max-width:70%;border-radius:12px;word-wrap:break-word;position:relative;}
+.message.user{background:#dcf8c6;align-self:flex-end;border-bottom-right-radius:3px;}
+.message.advocate{background:white;align-self:flex-start;border-bottom-left-radius:3px;}
+.timestamp{font-size:10px;color:gray;margin-top:2px;}
+.message:hover .delete-btn{display:block;}
+.delete-btn{display:none;position:absolute;top:2px;right:2px;background:red;color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:12px;}
+.chat-input{display:flex;padding:10px;background:#eee;gap:5px;align-items:center;}
+.chat-input input[type=text]{flex:1;padding:10px;border-radius:20px;border:1px solid #ccc;}
+.chat-input input[type=file]{display:none;}
+.chat-input button{min-width:50px;height:40px;border-radius:50%;background:#25D366;color:white;border:none;cursor:pointer;font-size:18px;display:flex;justify-content:center;align-items:center;}
+.typing-indicator{font-size:12px;color:white;}
+.menu-container{
+position:relative;
+cursor:pointer;
+}
+
+.menu-btn{
+font-size:18px;
+padding:5px;
+}
+
+.menu-dropdown{
+display:none;
+position:absolute;
+right:0;
+top:20px;
+background:white;
+border:1px solid #ddd;
+border-radius:6px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+z-index:10;
+}
+
+.menu-dropdown div{
+padding:8px 12px;
+cursor:pointer;
+}
+
+.menu-dropdown div:hover{
+background:#f5f5f5;
+}
+
+.menu-container.active .menu-dropdown{
+display:block;
+}
+</style>
+</head>
+<body>
+<div class="main-container">
+  <div class="client-list">
+    <div class="client-header" id="clientHeader">Your Advocates</div>
+    <div id="clientList"></div>
+  </div>
+  <div class="chat-container">
+    <div class="chat-header">
+      <span id="chatUser">Select Advocate</span>
+      <span id="typingIndicator" class="typing-indicator"></span>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div id="filePreview" style="padding:5px;"></div>
+    <div class="chat-input">
+      <input type="text" id="messageInput" placeholder="Type a message...">
+      <label for="fileInput" style="cursor:pointer;color:#128C7E;font-size:20px;">📎</label>
+      <input type="file" id="fileInput">
+      <button type="button" id="sendBtn">&#9658;</button>
+    </div>
+  </div>
+</div>
+<script>
+const BASE_URL = "https://nyaysetu-backend-sme2.onrender.com";
+let currentBookingId = null;
+const chatMessages = document.getElementById("chatMessages");
+const messageInput = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+const fileInput = document.getElementById("fileInput");
+const filePreview = document.getElementById("filePreview");
+const typingIndicator = document.getElementById("typingIndicator");
+const token = localStorage.getItem("userToken");
+let sender = localStorage.getItem('userId');
+if(!token || !sender){ alert("Session expired. Please login again."); window.location.href="login.html"; }
+let senderType = "User";
+fileInput.addEventListener("change",()=>{
+  const file=fileInput.files[0]; if(!file) return;
+  if(file.type.startsWith("image/")){
+    const reader=new FileReader();
+    reader.onload=function(e){ filePreview.innerHTML=`<img src="${e.target.result}" width="120" style="border-radius:8px;">`; };
+    reader.readAsDataURL(file);
+  } else { filePreview.innerHTML=`<div style="background:white;padding:5px;border-radius:6px;">📄 ${file.name}</div>`; }
+});
+async function loadClients(){
+  const list=document.getElementById("clientList"); 
+  list.innerHTML="";
+
+  let added=new Set();
+  let approvedLocal=JSON.parse(localStorage.getItem("approvedClients"))||[];
+
+  for(const c of approvedLocal){
+
+    if(added.has(c.bookingId)) continue; 
+    added.add(c.bookingId);
+
+    let advocateName = c.advocateName;
+
+    
+    if(!advocateName){
+      try{
+        const res = await fetch(`${BASE_URL}/chat/${c.bookingId}`,{
+          headers:{'Authorization':`Bearer ${token}`}
+        });
+        const data = await res.json();
+
+        if(data.success && data.chats.length>0){
+          const msg = data.chats.find(m=>m.sender?.name);
+          if(msg) advocateName = msg.sender.name;
+        }
+      }catch(err){
+        console.error(err);
+      }
+    }
+
+    const div=document.createElement("div"); 
+    div.className="client";
+
+    div.innerHTML=`
+<div style="display:flex;justify-content:space-between;align-items:center;">
+<span class="client-name">${advocateName || "Advocate"}</span>
+
+<div class="menu-container">
+<span class="menu-btn">⋮</span>
+
+<div class="menu-dropdown">
+<div class="delete-chat">Delete</div>
+</div>
+
+</div>
+</div>
+`;
+const menuBtn = div.querySelector(".menu-btn");
+const menu = div.querySelector(".menu-container");
+
+menuBtn.onclick = e=>{
+e.stopPropagation();
+menu.classList.toggle("active");
+};
+
+div.querySelector(".delete-chat").onclick = e=>{
+e.stopPropagation();
+deleteFullChat(c.bookingId);
+};
+
+    div.onclick=()=>{
+      currentBookingId=c.bookingId; 
+      document.getElementById("chatUser").innerText=advocateName || "Advocate";
+      loadMessages(); 
+      setTimeout(()=>{chatMessages.scrollTop=chatMessages.scrollHeight;},200); 
+    };
+
+    list.appendChild(div);
+  }
+}
+async function loadMessages(){
+  if(!currentBookingId) return;
+  try{
+    const res=await fetch(`${BASE_URL}/chat/${currentBookingId}`,{headers:{'Authorization':`Bearer ${token}`}});
+    if(!res.ok) return; 
+    const data=await res.json(); 
+    chatMessages.innerHTML="";
+
+    if(!data.success||!Array.isArray(data.chats)) return;
+
+    const advocateMsg = data.chats.find(m => m.sender && m.sender.name);
+    if(advocateMsg){
+      document.getElementById("chatUser").innerText = advocateMsg.sender.name;
+    }
+  data.chats.forEach(msg=>{
+  if(!msg||!msg.sender) return;
+
+  const div=document.createElement("div");
+  div.classList.add("message");
+
+  div.classList.add(
+    msg.sender._id.toString() === sender.toString() ? "user" : "advocate"
+  );
+
+  div.innerHTML = `
+<strong>${msg.sender?.name || "Advocate"}</strong><br>
+${msg.message || ''}
+
+<span class="timestamp">
+${new Date(msg.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
+</span>
+
+<button class="delete-btn" onclick="deleteMessage('${msg._id}')">x</button>
+`;
+
+  chatMessages.appendChild(div);
+    });
+    chatMessages.scrollTop=chatMessages.scrollHeight;
+  }catch(err){console.error("Error loading messages:",err);}
+}
+async function sendMessage(){
+  if(!currentBookingId) return alert("Select an advocate first");
+  const message=messageInput.value.trim(); if(!message&&!fileInput.files[0]) return;
+  let approvedClients=JSON.parse(localStorage.getItem("approvedClients"))||[];
+  let client=approvedClients.find(c=>c.bookingId===currentBookingId);
+  if(!client) return alert("Cannot send message: advocate not found");
+  const receiver=client.advocateId;
+  const formData=new FormData();
+  formData.append('bookingId',currentBookingId);
+  formData.append('sender',sender);
+  formData.append('senderType',senderType);
+  formData.append('receiver',receiver);
+  formData.append('message',message);
+  if(fileInput.files[0]) formData.append('attachments',fileInput.files[0]);
+  try{
+    const res=await fetch(`${BASE_URL}/chat/send`,{method:'POST',headers:{'Authorization':`Bearer ${token}`},body:formData});
+    const data=await res.json();
+    if(data.success){ messageInput.value=''; fileInput.value=''; filePreview.innerHTML=''; loadMessages(); setTimeout(()=>{chatMessages.scrollTop=chatMessages.scrollHeight;},200); }
+    else alert(data.message||"Failed to send message");
+  }catch(err){console.error("Send message error:",err); alert("Server error while sending message");}
+}
+sendBtn.onclick=sendMessage;
+
+// delete single message
+window.deleteMessage = async (id)=>{
+  try{
+    await fetch(`${BASE_URL}/chat/delete/${id}`,{
+      method:'DELETE',
+      headers:{
+        'Authorization':`Bearer ${token}`
+      }
+    });
+
+    loadMessages();
+
+  }catch(err){
+    console.error("Delete message error",err);
+  }
+}
+
+async function deleteFullChat(bookingId){
+
+ if(!confirm("Delete this full chat?")) return;
+
+ try{
+
+  await fetch(`${BASE_URL}/chat/delete-all/${bookingId}`,{
+   method:'DELETE',
+   headers:{
+    'Authorization':`Bearer ${token}`
+   }
+  });
+
+ 
+  let clients = JSON.parse(localStorage.getItem("approvedClients")) || [];
+  clients = clients.filter(c => c.bookingId !== bookingId);
+  localStorage.setItem("approvedClients", JSON.stringify(clients));
+
+ 
+  loadClients();
+
+  chatMessages.innerHTML="";
+  document.getElementById("chatUser").innerText="Select Client";
+
+ }catch(err){
+  console.error("Delete full chat error",err);
+ }
+
+}
+
+
+messageInput.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sendMessage();}});
+messageInput.addEventListener('input',()=>{typingIndicator.innerText='Typing...'; setTimeout(()=>typingIndicator.innerText='',1000);});
+loadClients(); setInterval(()=>{ if(currentBookingId) loadMessages(); },3000);
+</script>
+</body>
+</html>

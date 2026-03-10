@@ -6,11 +6,10 @@
 <title>NyaySetu - Login / Signup</title>
 
 <style>
-/*==============================
-  THEME VARIABLES
-==============================*/
+
 :root {
-    --bg-gradient: linear-gradient(90deg, #4f46e5, #75f2f2);
+
+    --bg-gradient: linear-gradient(120deg, #6C6FD9, #A9CFE0);
     --card-bg: #ffffff;
 
     --primary: #4f46e5;
@@ -29,9 +28,6 @@
     --radius-pill: 999rem;
 }
 
-/*==============================
-  BASE
-==============================*/
 body {
     margin: 0;
     background: var(--bg-gradient);
@@ -42,10 +38,6 @@ body {
     align-items: center;
     padding: 1rem;
 }
-
-/*==============================
-  CARD
-==============================*/
 .card {
     width: 100%;
     max-width: 500px;
@@ -55,9 +47,6 @@ body {
     box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/*==============================
-  HEADER
-==============================*/
 .header {
     text-align: center;
     margin-bottom: 1.5rem;
@@ -70,9 +59,6 @@ body {
     font-weight: 800;
 }
 
-/*==============================
-  ROLE SELECT
-==============================*/
 .role-tabs {
     display: flex;
     background: #f3f4f6;
@@ -97,9 +83,6 @@ body {
     border-bottom: 3px solid var(--primary);
 }
 
-/*==============================
-  FORM
-==============================*/
 .form-title {
     text-align: center;
     font-size: 1.8rem;
@@ -127,9 +110,6 @@ form {
     box-shadow: 0 0 0 3px rgba(79,70,229,0.35);
 }
 
-/*==============================
-  SECTIONS
-==============================*/
 #signup-fields,
 #advocate-fields {
     display: none;
@@ -149,9 +129,6 @@ form {
     margin-bottom: 1rem;
 }
 
-/*==============================
-  FILE INPUT
-==============================*/
 .file-input::file-selector-button {
     padding: 8px 16px;
     border-radius: var(--radius-pill);
@@ -164,9 +141,6 @@ form {
     background: var(--primary-dark);
 }
 
-/*==============================
-  BUTTON
-==============================*/
 .submit-btn {
     padding: 15px;
     font-size: 1.2rem;
@@ -181,9 +155,6 @@ form {
     background: var(--primary-dark);
 }
 
-/*==============================
-  TOGGLE
-==============================*/
 .toggle {
     margin-top: 1.5rem;
     text-align: center;
@@ -238,7 +209,6 @@ form {
 
     <form id="mainForm">
 
-        <!-- USER SIGNUP FIELDS -->
         <div id="signup-fields">
             
             <input type="text" class="input-field" placeholder="Full Name">
@@ -248,7 +218,6 @@ form {
             <input type="text" class="input-field" placeholder="Pincode">
         </div>
 
-        <!-- ADVOCATE EXTRA FIELDS -->
         <div id="advocate-fields" class="advocate-box">
             <p class="advocate-title">Advocate Verification Details</p>
 
@@ -271,7 +240,6 @@ form {
             </fieldset>
         </div>
 
-        <!-- COMMON FIELDS -->
         <input type="email" class="input-field" placeholder="Email" required>
         <input type="password" class="input-field" placeholder="Password" required>
 
@@ -285,7 +253,7 @@ form {
 </div>
 
 <script>
-let isLogin = true; // true = login, false = signup
+let isLogin = true; 
 
 const userBtn = document.getElementById("btn-user");
 const advBtn = document.getElementById("btn-adv");
@@ -297,9 +265,7 @@ const advocateFields = document.getElementById("advocate-fields");
 const submitBtn = document.getElementById("submit-btn");
 const mainForm = document.getElementById("mainForm");
 
-let signupRole = "User"; // role selected during signup
-
-// ===== Toast function =====
+let signupRole = "User"; 
 function showToast(message, color = "green", duration = 1500) {
     const toast = document.createElement("div");
     toast.innerText = message;
@@ -316,7 +282,6 @@ function showToast(message, color = "green", duration = 1500) {
     setTimeout(() => toast.remove(), duration);
 }
 
-// ===== UI update =====
 function updateUI() {
     formTitle.innerText = `${signupRole} ${isLogin ? "Login" : "Signup"}`;
     submitBtn.innerText = isLogin ? "Login" : "Create Account";
@@ -329,11 +294,10 @@ function updateUI() {
     advBtn.classList.toggle("active", signupRole === "Advocate");
 }
 
-// ===== Role selection (signup only) =====
 userBtn.onclick = () => { signupRole = "User"; updateUI(); };
 advBtn.onclick = () => { signupRole = "Advocate"; updateUI(); };
 
-// Toggle login/signup
+
 toggleBtn.onclick = () => { 
     isLogin = !isLogin; 
     updateUI(); 
@@ -341,7 +305,6 @@ toggleBtn.onclick = () => {
 
 updateUI();
 
-// ===== Form submit =====
 mainForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -356,7 +319,6 @@ mainForm.addEventListener("submit", async (e) => {
    if (isLogin) {
     submitBtn.disabled = true; 
    
-    // ===== LOGIN =====
     try {
         const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/auth/login", {
     method: "POST",
@@ -364,24 +326,28 @@ mainForm.addEventListener("submit", async (e) => {
     body: JSON.stringify({ 
         email, 
         password, 
-        role: signupRole   // <-- FIXED (remove capitalizing)
+        role: signupRole  
     })
 });
 
         const data = await res.json();
-        console.log("LOGIN RESPONSE:", data);   // <-- CHECK THIS IN CONSOLE
+        console.log("LOGIN RESPONSE:", data);  
 
         if (!res.ok || !data.success) {
             showToast(data.message || "Invalid credentials", "red");
             return;
         }
 localStorage.setItem("userToken", data.token);
-localStorage.setItem("role", data.role || signupRole);
-localStorage.setItem("name", data.user?.name || "");
-localStorage.setItem("email", data.user?.email || "");
-localStorage.setItem("mobile", data.user?.mobile || "");
+localStorage.setItem("role", data.role);
+localStorage.setItem("name", data.user.name);
+localStorage.setItem("email", data.user.email);
+localStorage.setItem("mobile", data.user.mobile);
 
-
+if(data.role === "User"){
+    localStorage.setItem("userId", data.user._id);
+}else if(data.role === "Advocate"){
+    localStorage.setItem("advocateId", data.user._id);
+}
 
         showToast("Login successful!", "green");
 
@@ -399,8 +365,6 @@ localStorage.setItem("mobile", data.user?.mobile || "");
         submitBtn.disabled = false; 
     }
 
-
-     // ===== SIGNUP =====
 } else {
         submitBtn.disabled = true; 
    
@@ -425,9 +389,6 @@ localStorage.setItem("mobile", data.user?.mobile || "");
             showToast("Name, Email and Password are required", "red");
             return;
         }
-
-        // 🔵 USER → /auth/signup
-        // 🔵 ADVOCATE → /advocate/signup
         let url = "https://nyaysetu-backend-sme2.onrender.com/auth/signup";
         if (signupRole === "Advocate") url = "https://nyaysetu-backend-sme2.onrender.com/authAdvocate/signup";
 
@@ -442,7 +403,7 @@ localStorage.setItem("mobile", data.user?.mobile || "");
         city,
         state,
         pincode,
-        role: signupRole,   // <-- Add this line
+        role: signupRole,
         barId,
         experience,
         specialization
@@ -457,7 +418,6 @@ localStorage.setItem("mobile", data.user?.mobile || "");
             return;
         }
 
-        // Save ALL signup details
 localStorage.setItem("name", name);
 localStorage.setItem("email", email);
 localStorage.setItem("mobile", mobile);
