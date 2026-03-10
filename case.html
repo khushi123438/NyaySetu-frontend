@@ -137,6 +137,8 @@ div.innerHTML=`
 
 
 
+/* ACCEPT BUTTON */
+
 const acceptBtn=div.querySelector(".accept-btn");
 
 acceptBtn.addEventListener("click",()=>{
@@ -144,7 +146,7 @@ acceptBtn.addEventListener("click",()=>{
 let approvedClients=
 JSON.parse(localStorage.getItem("approvedClients")) || [];
 
-
+/* CHECK SAME USER ALREADY EXISTS */
 
 const alreadyExists = approvedClients.some(
 client => client.userId === booking.user._id
@@ -165,12 +167,16 @@ JSON.stringify(approvedClients)
 
 }
 
+/* OPEN CHAT */
+
 window.location.href=
 `adv-chat.html?bookingId=${booking._id}&name=${encodeURIComponent(booking.user.name)}`;
 
 });
 
 
+
+/* REJECT BUTTON */
 
 const rejectBtn=div.querySelector(".reject-btn");
 
@@ -183,6 +189,8 @@ container.appendChild(div);
 }
 
 
+
+/* REJECT CASE */
 
 async function rejectCase(id,btn){
 

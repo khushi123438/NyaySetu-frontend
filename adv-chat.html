@@ -437,33 +437,57 @@ headers:{
 
         if (!data.success || !Array.isArray(data.chats)) return;
 
-        data.chats.forEach(msg => {
-            if (!msg || !msg.sender) return;
+       data.chats.forEach(msg => {
 
-            const div = document.createElement("div");
-            div.classList.add("message");
-           const senderId = msg.sender._id || msg.sender;
-div.classList.add(senderId.toString() === sender.toString() ? "user" : "advocate");
+  if(!msg || !msg.sender) return;
 
-           div.innerHTML = `
-<strong>${msg.sender?.name || "User"}</strong><br>
+  const div = document.createElement("div");
+  div.classList.add("message");
 
-${msg.message ? msg.message : ""}
+  div.classList.add(
+    msg.sender._id.toString() === sender.toString() ? "user" : "advocate"
+  );
 
-${msg.attachments 
-? (msg.attachments.toLowerCase().endsWith(".pdf")
-   ? `<br><a href="${BASE_URL}${msg.attachments}" target="_blank">📄 View File</a>`
-   : `<br><img src="${BASE_URL}${msg.attachments}" width="150" style="border-radius:8px;margin-top:5px;">`)
-: ""}
+  let attachmentHTML = "";
 
-<span class="timestamp">
-${new Date(msg.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
-</span>
+  if(msg.attachments){
 
-<button class="delete-btn" onclick="deleteMessage('${msg._id}')">x</button>
-`;
-            chatMessages.appendChild(div);
-        });
+    const fileUrl = `${BASE_URL}${msg.attachments}`;
+
+    if(msg.attachments.match(/\.(jpg|jpeg|png|gif)$/i)){
+      attachmentHTML = `
+      <br>
+      <img src="${fileUrl}" 
+      style="max-width:180px;border-radius:8px;margin-top:5px;cursor:pointer;"
+      onclick="window.open('${fileUrl}')">
+      `;
+    }else{
+      attachmentHTML = `
+      <br>
+      <a href="${fileUrl}" target="_blank" 
+      style="display:inline-block;margin-top:5px;background:#f1f1f1;padding:6px 10px;border-radius:6px;text-decoration:none;color:black;">
+      📎 Download File
+      </a>
+      `;
+    }
+
+  }
+
+  div.innerHTML = `
+  <strong>${msg.sender?.name || "Advocate"}</strong><br>
+  ${msg.message || ""}
+  ${attachmentHTML}
+
+  <span class="timestamp">
+  ${new Date(msg.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
+  </span>
+
+  <button class="delete-btn" onclick="deleteMessage('${msg._id}')">x</button>
+  `;
+
+  chatMessages.appendChild(div);
+
+});
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
