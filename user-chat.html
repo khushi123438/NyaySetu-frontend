@@ -181,42 +181,62 @@ deleteFullChat(c.bookingId);
 async function loadMessages(){
   if(!currentBookingId) return;
   try{
-    const res=await fetch(`${BASE_URL}/chat/${currentBookingId}`,{headers:{'Authorization':`Bearer ${token}`}});
-    if(!res.ok) return; 
-    const data=await res.json(); 
+    const res = await fetch(`${BASE_URL}/chat/${currentBookingId}`, {
+      headers: {'Authorization': `Bearer ${token}`}
+    });
+    if(!res.ok) return;
+    const data = await res.json();
     chatMessages.innerHTML="";
 
-    if(!data.success||!Array.isArray(data.chats)) return;
+    if(!data.success || !Array.isArray(data.chats)) return;
 
     const advocateMsg = data.chats.find(m => m.sender && m.sender.name);
     if(advocateMsg){
       document.getElementById("chatUser").innerText = advocateMsg.sender.name;
     }
-  data.chats.forEach(msg=>{
-  if(!msg||!msg.sender) return;
 
-  const div=document.createElement("div");
-  div.classList.add("message");
+    data.chats.forEach(msg => {
+      if(!msg || !msg.sender) return;
 
-  div.classList.add(
-    msg.sender._id.toString() === sender.toString() ? "user" : "advocate"
-  );
+      const div = document.createElement("div");
+      div.classList.add("message");
+      div.classList.add(
+        msg.sender._id.toString() === sender.toString() ? "user" : "advocate"
+      );
 
-  div.innerHTML = `
-<strong>${msg.sender?.name || "Advocate"}</strong><br>
-${msg.message || ''}
+      // Build attachment HTML if exists
+      let attachmentHTML = "";
+      if(msg.attachments){
+        // Agar backend multiple attachments return karta hai
+        const files = Array.isArray(msg.attachments) ? msg.attachments : [msg.attachments];
+        attachmentHTML = files.map(f=>{
+          const ext = f.split('.').pop().toLowerCase();
+          if(['jpg','jpeg','png','gif','webp'].includes(ext)){
+            return `<img src="${BASE_URL}/uploads/${f}" width="150" style="border-radius:8px;margin-top:5px;">`;
+          } else {
+            return `<a href="${BASE_URL}/uploads/${f}" target="_blank" style="display:block;margin-top:5px;">📄 ${f}</a>`;
+          }
+        }).join("");
+      }
 
-<span class="timestamp">
-${new Date(msg.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
-</span>
+      div.innerHTML = `
+        <strong>${msg.sender?.name || "Advocate"}</strong><br>
+        ${msg.message || ''}
+        ${attachmentHTML}
+        <span class="timestamp">
+          ${new Date(msg.createdAt).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}
+        </span>
+        <button class="delete-btn" onclick="deleteMessage('${msg._id}')">x</button>
+      `;
 
-<button class="delete-btn" onclick="deleteMessage('${msg._id}')">x</button>
-`;
-
-  chatMessages.appendChild(div);
+      chatMessages.appendChild(div);
     });
-    chatMessages.scrollTop=chatMessages.scrollHeight;
-  }catch(err){console.error("Error loading messages:",err);}
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+  } catch(err){
+    console.error("Error loading messages:", err);
+  }
 }
 async function sendMessage(){
   if(!currentBookingId) return alert("Select an advocate first");
