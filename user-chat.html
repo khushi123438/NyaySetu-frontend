@@ -204,20 +204,24 @@ async function loadMessages(){
         msg.sender._id.toString() === sender.toString() ? "user" : "advocate"
       );
 
-      // Build attachment HTML if exists
       let attachmentHTML = "";
-      if(msg.attachments){
-        // Agar backend multiple attachments return karta hai
-        const files = Array.isArray(msg.attachments) ? msg.attachments : [msg.attachments];
-        attachmentHTML = files.map(f=>{
-          const ext = f.split('.').pop().toLowerCase();
-          if(['jpg','jpeg','png','gif','webp'].includes(ext)){
-            return `<img src="${BASE_URL}/uploads/${f}" width="150" style="border-radius:8px;margin-top:5px;">`;
-          } else {
-            return `<a href="${BASE_URL}/uploads/${f}" target="_blank" style="display:block;margin-top:5px;">📄 ${f}</a>`;
-          }
-        }).join("");
-      }
+
+if(msg.attachments){
+  const files = Array.isArray(msg.attachments) ? msg.attachments : [msg.attachments];
+
+  attachmentHTML = files.map(f=>{
+
+    const ext = f.split('.').pop().toLowerCase();
+
+    if(['jpg','jpeg','png','gif','webp'].includes(ext)){
+      return `<img src="${BASE_URL}${f}" width="150" style="border-radius:8px;margin-top:5px;">`;
+    } 
+    else{
+      return `<a href="${BASE_URL}${f}" target="_blank" style="display:block;margin-top:5px;">📄 Download File</a>`;
+    }
+
+  }).join("");
+}
 
       div.innerHTML = `
         <strong>${msg.sender?.name || "Advocate"}</strong><br>
