@@ -269,7 +269,7 @@ Loading...
 
 
 <script>
-const BASE_URL = "https://nyaysetu-backend-sme2.onrender.com/api/chat";
+const BASE_URL = "https://nyaysetu-backend-sme2.onrender.com";
 
 let currentBookingId = null;
 const chatMessages = document.getElementById("chatMessages");
@@ -426,7 +426,7 @@ async function loadMessages() {
     if (!currentBookingId) return;
 
     try {
-        const res = await fetch(`${BASE_URL}/${currentBookingId}`,{
+        const res = await fetch(`${BASE_URL}/chat/${currentBookingId}`,{
 headers:{
 'Authorization':`Bearer ${localStorage.getItem("userToken")}`
 }
@@ -496,49 +496,70 @@ headers:{
     }
 }
 
+
 async function sendMessage() {
-  const token = localStorage.getItem('userToken');
-  if (!currentBookingId) return alert("Select a client first.");
+    const token = localStorage.getItem('userToken');
+    if (!currentBookingId) return alert("Select a client first");
+    const message = messageInput.value.trim();
+    if (!message && !fileInput.files[0]) return;
 
-  const messageText = messageInput.value.trim();
-  const file = fileInput.files[0];
+  
+    let receiver = null;
 
-  if (!messageText && !file) return alert("Type a message or attach a file.");
-
-  // Build FormData for file upload
-  const formData = new FormData();
-  formData.append("bookingId", currentBookingId);
-  formData.append("sender", sender);
-  formData.append("senderType", senderType.toLowerCase());
-  formData.append("message", messageText || ""); // empty string if no text
-  if (file) formData.append("attachments", file);
-
-  // Debug: see what’s being sent
-  console.log("Sending payload:");
-  for (let pair of formData.entries()) console.log(pair[0], pair[1]);
-
-  try {
-    const res = await fetch(`${BASE_URL}/send`, {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${token}` },
-      body: formData // browser sets Content-Type automatically
-    });
-
-    const data = await res.json();
-
-    if (res.ok && data.success) {
-      messageInput.value = "";
-      fileInput.value = "";
-      filePreview.innerHTML = "";
-      await loadMessages(); // reload chat
-      setTimeout(() => chatMessages.scrollTop = chatMessages.scrollHeight, 200);
+    if (senderType === "Advocate") {
+       
+        const approvedClients = JSON.parse(localStorage.getItem("approvedClients")) || [];
+        const client = approvedClients.find(c => c.bookingId === currentBookingId);
+        if (client && client.userId) {
+            receiver = client.userId;
+        }
     } else {
-      alert(data.message || "Failed to send message");
+       
+        receiver = localStorage.getItem("advocateId");
     }
-  } catch (err) {
-    console.error("Send message error:", err);
-    alert("Server error while sending message");
-  }
+
+    if (!receiver) {
+        return alert("Cannot send message: receiver not found!");
+    }
+
+    const formData = new FormData();
+    formData.append('bookingId', currentBookingId);
+    formData.append('sender', sender);
+    formData.append('senderType', senderType);
+    formData.append('receiver', receiver); 
+    formData.append('message', message);
+    if (fileInput.files[0]) formData.append('attachments', fileInput.files[0]);
+
+    try {
+        const res = await fetch(`${BASE_URL}/chat/send`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}` 
+            },
+            body: formData
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+         
+            messageInput.value = '';
+            fileInput.value = '';
+            filePreview.innerHTML = "";
+
+       
+            loadMessages();
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 200);
+        } else {
+            alert(data.message || "Failed to send message");
+        }
+
+    } catch (err) {
+        console.error("Send message error:", err);
+        alert("Server error while sending message");
+    }
 }
 
 window.deleteMessage = async (id) => {
