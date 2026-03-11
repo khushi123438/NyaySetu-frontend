@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <meta http-equiv="Content-Security-Policy" 
-content="default-src * 'self' data: blob:; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; connect-src * https://nyaysetu-backend-sme2.onrender.com; img-src * data: blob:; style-src * 'self' 'unsafe-inline';">
+content="default-src * 'self' data: blob: 'unsafe-inline' 'unsafe-eval'; 
+connect-src * https://nyaysetu-backend-sme2.onrender.com;">
 
 <title>NyaySetu - Login / Signup</title>
 
@@ -272,6 +273,12 @@ Loading...
 </div>
 
 <script>
+    window.addEventListener("load", () => {
+    fetch("https://nyaysetu-backend-sme2.onrender.com")
+    .then(()=>console.log("Backend wake request sent"))
+    .catch(()=>console.log("Backend wake failed"));
+});
+
 let isLogin = true; 
 
 const userBtn = document.getElementById("btn-user");
@@ -340,10 +347,11 @@ mainForm.addEventListener("submit", async (e) => {
    
     try {
         const controller = new AbortController();
-const timeout = setTimeout(() => controller.abort(), 15000);
+const timeout = setTimeout(() => controller.abort(), 35000);
 
 const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/auth/login", {
     method: "POST",
+    mode: "cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
         email,
