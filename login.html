@@ -323,6 +323,7 @@ mainForm.addEventListener("submit", async (e) => {
         const res = await fetch("https://nyaysetu-backend-sme2.onrender.com/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    mode: "cors",
     body: JSON.stringify({ 
         email, 
         password, 
@@ -353,7 +354,7 @@ if(data.role === "User"){
 
         setTimeout(() => {
             if (data.role?.toLowerCase() === "user")
-                window.location.href = "user.html";
+                window.location.href = "./user.html";
             else if (data.role?.toLowerCase() === "advocate")
                 window.location.href = "client.html";
         }, 1000);
@@ -381,7 +382,7 @@ if(data.role === "User"){
             experience = advocateFields.querySelector('input[placeholder^="Experience"]').value.trim() || "";
             const checkboxes = advocateFields.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(cb => { 
-                if(cb.checked) specialization.push(cb.nextSibling.textContent.trim()); 
+                if(cb.checked) specialization.push(cb.parentElement.textContent.trim()); 
             });
         }
 
