@@ -27,15 +27,14 @@
     .demo-content h1 { font-size:2.5rem; margin-bottom:1rem; text-shadow:2px 2px 4px rgba(0,0,0,0.3);}
     .demo-content p { font-size:1.2rem; opacity:0.9; }
 
- /* Remove position fixed from container and window */
 .chatbot-container {
-    position: relative; /* now relative to demo-content */
+    position: relative;
     margin-top: 2rem;
      width: 100%;
   max-width: 360px;
     display: flex;
     flex-direction: column;
-    align-items: flex-end; /* bubble at bottom-right of content */
+    align-items: flex-end;
 }
 
    .chat-bubble {
@@ -49,14 +48,14 @@
     cursor: pointer;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     font-size: 24px;
-    transition: all 0.4s ease; /* smooth transform and opacity */
+    transition: all 0.4s ease; 
     margin-bottom: 10px;
     opacity: 1;
 }
 
 .chat-bubble.hide {
-    transform: scale(0); /* shrink */
-    opacity: 0;          /* fade out */
+    transform: scale(0);
+    opacity: 0;        
 }
 
 .chat-window {
@@ -72,15 +71,15 @@
     overflow: hidden;
     margin-bottom: 20px;
 
-    /* initial hidden state */
+   
     opacity: 0;
-    transform: scale(0.7); /* shrink */
-    transition: all 0.4s ease; /* smooth transition */
+    transform: scale(0.7); 
+    transition: all 0.4s ease; 
 }
 
 .chat-window.show {
     opacity: 1;
-    transform: scale(1); /* grow to normal size */
+    transform: scale(1);
 }
 
     @keyframes slideIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
@@ -140,7 +139,7 @@
                      display:flex; align-items:center; justify-content:center; border-radius:50%; transition:background-color 0.3s ease; }
     .close-button:hover { background:rgba(255,255,255,0.2); }
 
-    /* Scrollbar styling */
+ 
     .chat-messages::-webkit-scrollbar { width:6px; }
     .chat-messages::-webkit-scrollbar-track { background:#f1f1f1; border-radius:3px; }
     .chat-messages::-webkit-scrollbar-thumb { background:#c1c1c1; border-radius:3px; }
@@ -172,12 +171,12 @@
   .chat-window {
     width: calc(100vw - 32px);
     max-width: 400px;
-    height: 75vh;              /* responsive height */
+    height: 75vh;       
     max-height: 520px;
   }
 }
 
-/* Small phones */
+
 @media (max-width: 480px) {
   .chat-window {
     height: 70vh;
@@ -240,14 +239,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const typingIndicator = document.getElementById('typingIndicator');
 
     chatBubble.addEventListener('click', () => {
-    chatBubble.classList.add('hide'); // shrink & fade bubble
-    chatWindow.classList.add('show'); // grow & fade in chat window
+    chatBubble.classList.add('hide');
+    chatWindow.classList.add('show'); 
     chatInput.focus();
 });
 
 closeChat.addEventListener('click', () => {
-    chatWindow.classList.remove('show'); // shrink & fade out chat window
-    chatBubble.classList.remove('hide'); // bubble comes back
+    chatWindow.classList.remove('show');
+    chatBubble.classList.remove('hide'); 
 });
 
 
