@@ -46,17 +46,32 @@ body{
 .hero{
   min-height: 100vh;
   height: auto;
- padding-bottom: 50px;
- display:flex;
- flex-direction:column;
- justify-content:center;
- align-items:center;
- text-align:center;
- padding:0 8%;
- position:relative;
- overflow:hidden;
+  padding-top: calc(60px + 40px); /* navbar height (60px) + extra spacing */
+  padding-bottom: 50px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding-left:8%;
+  padding-right:8%;
+  position:relative;
+  overflow:hidden;
 }
 
+@media(max-width:768px){
+  .hero{
+    padding-top: calc(70px + 40px); /* thoda extra for small screens */
+  }
+
+  .hero h1{
+    font-size:2rem;
+  }
+
+  .hero p{
+    font-size:14px;
+  }
+}
 .hero::before{
  content:"";
  position:absolute;
