@@ -226,45 +226,38 @@ align-items:center;
 font-size:12px;
 color:white;
 }
+
 @media screen and (max-width:768px){
-
-body{
-justify-content:flex-start;
-align-items:stretch;
-height:100vh;
+  .main-container{
+    flex-direction:column;
+    width:100%;
+    height:100vh;
+  }
+  .client-list{
+    width:100%;
+    flex:1;
+    transition: transform 0.3s ease;
+  }
+  .chat-container{
+    width:100%;
+    flex:2;
+    position:absolute;
+    top:0;
+    left:0;
+    height:100vh;
+    background:white;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index:20;
+  }
+  .chat-container.active{
+    transform: translateX(0%);
+  }
+  #backBtn{
+    display:inline-block;
+  }
 }
 
-.main-container{
-width:100%;
-height:100vh;
-flex-direction:column;
-border-radius:0;
-}
-
-.client-list{
-width:100%;
-flex:1;
-overflow-y:auto;
-}
-
-.chat-container{
-width:100%;
-flex:2;
-display:flex;
-flex-direction:column;
-}
-
-.chat-messages{
-flex:1;
-overflow-y:auto;
-}
-
-.message{
-max-width:85%;
-}
-
-
-}
 
 </style>
 </head>
@@ -288,8 +281,9 @@ Loading...
 <div class="chat-container">
 
 <div class="chat-header">
-<span id="chatUser">Select Client</span>
-<span id="typingIndicator" class="typing-indicator"></span>
+  <span id="backBtn" style="display:none;cursor:pointer;margin-right:10px;">←</span>
+  <span id="chatUser">Select Client</span>
+  <span id="typingIndicator" class="typing-indicator"></span>
 </div>
 
 <div class="chat-messages" id="chatMessages"></div>
@@ -637,6 +631,23 @@ async function deleteFullChat(bookingId) {
         console.error("Delete full chat error", err);
     }
 }
+
+div.querySelector(".client-name").onclick = () => {
+    currentBookingId = b._id;
+    document.getElementById("chatUser").innerText = senderType === "Advocate" ? b.userName : b.advocateName;
+    
+    loadMessages();
+    setTimeout(()=>{ chatMessages.scrollTop = chatMessages.scrollHeight; },200);
+
+    // Mobile view: show chat full screen
+    if(window.innerWidth <= 768){
+        document.querySelector('.chat-container').classList.add('active');
+    }
+};
+
+document.getElementById("backBtn").onclick = () => {
+    document.querySelector('.chat-container').classList.remove('active');
+};
 
 sendBtn.onclick = sendMessage;
 messageInput.addEventListener("keydown", e => { if(e.key==="Enter"){e.preventDefault();sendMessage();}});
