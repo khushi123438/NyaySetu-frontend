@@ -324,9 +324,11 @@ const token = localStorage.getItem("userToken");
 let sender = localStorage.getItem('advocateId') || localStorage.getItem('userId');
 
 if(!token || !sender){
-alert("Session expired. Please login again.");
-window.location.href="login.html";
+document.body.innerHTML =
+"<div style='display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;'>Session expired. Please login again.</div>";
+throw new Error("Session expired");
 }
+
 let senderType = localStorage.getItem('advocateId') ? "Advocate" : "User";
 
 const clientHeader = document.getElementById("clientHeader");
@@ -418,7 +420,8 @@ let url = senderType === "Advocate"
 const token = localStorage.getItem('userToken');
 
 const res = await fetch(url, {
-    headers: { 'Authorization': `Bearer ${token}` }
+headers: { 'Authorization': `Bearer ${token}` },
+credentials: "include"
 });
         if (!res.ok) return; 
         const data = await res.json();
@@ -469,7 +472,8 @@ async function loadMessages() {
         const res = await fetch(`${BASE_URL}/chat/${currentBookingId}`,{
 headers:{
 'Authorization':`Bearer ${localStorage.getItem("userToken")}`
-}
+},
+credentials:"include"
 });
         if (!res.ok) return;
         const data = await res.json();
@@ -499,12 +503,12 @@ headers:{
       <br>
       <img src="${fileUrl}" 
       style="max-width:180px;border-radius:8px;margin-top:5px;cursor:pointer;"
-      onclick="window.open('${fileUrl}')">
+      onclick="location.href='${fileUrl}'"/>
       `;
     }else{
       attachmentHTML = `
       <br>
-      <a href="${fileUrl}" target="_blank" 
+     <a href="${fileUrl}">
       style="display:inline-block;margin-top:5px;background:#f1f1f1;padding:6px 10px;border-radius:6px;text-decoration:none;color:black;">
       📎 Download File
       </a>
@@ -529,7 +533,9 @@ headers:{
 
 });
 
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        setTimeout(()=>{
+chatMessages.scrollTop = chatMessages.scrollHeight;
+},100);
 
     } catch (err) {
         console.error("Error loading messages:", err);
