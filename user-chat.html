@@ -88,25 +88,10 @@ width:100%;
 height:35%;
 overflow-y:auto;
 }
-/* Slide chat on mobile like WhatsApp */
+
 .chat-container{
-  width:100%;
-  height:65%;
-  position:absolute;
-  top:0;
-  left:0;
-  background:white;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  z-index:20;
-}
-
-.chat-container.active{
-  transform: translateX(0%);
-}
-
-#backBtn{
-  display:inline-block;
+width:100%;
+height:65%;
 }
 
 .chat-header{
@@ -142,10 +127,9 @@ font-size:14px;
   </div>
   <div class="chat-container">
     <div class="chat-header">
-  <span id="backBtn" style="display:none;cursor:pointer;margin-right:10px;">←</span>
-  <span id="chatUser">Select Advocate</span>
-  <span id="typingIndicator" class="typing-indicator"></span>
-</div>
+      <span id="chatUser">Select Advocate</span>
+      <span id="typingIndicator" class="typing-indicator"></span>
+    </div>
     <div class="chat-messages" id="chatMessages"></div>
     <div id="filePreview" style="padding:5px;"></div>
     <div class="chat-input">
@@ -382,21 +366,6 @@ async function deleteFullChat(bookingId){
 
 }
 
-div.onclick=()=>{
-  currentBookingId=c.bookingId; 
-  document.getElementById("chatUser").innerText=advocateName || "Advocate";
-  loadMessages(); 
-  setTimeout(()=>{chatMessages.scrollTop=chatMessages.scrollHeight;},200);
-
-  // Mobile: slide in chat full screen
-  if(window.innerWidth <= 768){
-    document.querySelector('.chat-container').classList.add('active');
-  }
-};
-
-document.getElementById("backBtn").onclick = () => {
-  document.querySelector('.chat-container').classList.remove('active');
-};
 
 messageInput.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();sendMessage();}});
 messageInput.addEventListener('input',()=>{typingIndicator.innerText='Typing...'; setTimeout(()=>typingIndicator.innerText='',1000);});
