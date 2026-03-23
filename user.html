@@ -3,52 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NyaySetu</title>
+  <title>NyaySetu | User</title>
   <style>
    
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: #f0f4f8; color: #111827; }
-
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: linear-gradient(90deg, #4f46e5, #75f2f2);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(8px);
-}
-
-.nav-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 8%;
-}
-
-.logo {
-  font-size: 28px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 1px;
-}
-
-nav {
-  display: flex;
-  gap: 12px;
-}
-
-nav a {
-  color: #fff;
-  font-weight: 600;
-  padding: 10px 16px;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: #fff; transition: 0.3s; } nav a:hover::after { width: 60%; } nav a:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-
-
 
 .profile-icon img {
   width: 40px;
@@ -66,21 +25,121 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
   cursor: pointer;
 }
 
+.legal-popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+}
 
-@media(max-width: 768px){
-  nav {
-    display: none;
-    flex-direction: column;
-    background: #4f46e5;
-    width: 100%;
-    padding: 15px 0;
-  }
-  nav.active {
-    display: flex;
-  }
-  .menu-toggle {
-    display: block;
-  }
+.legal-content{
+  background:#fff;
+  padding:30px;
+  width:90%;
+  max-width:600px;
+  border-radius:12px;
+  color:#111827;
+}
+
+.close-popup{
+  float:right;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 1024px){
+
+.hero h2{
+font-size:2.4rem;
+}
+
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.footer-container{
+flex-direction:column;
+text-align:center;
+}
+
+}
+
+@media (max-width: 768px){
+
+.hero{
+padding:60px 15px;
+}
+
+.hero h2{
+font-size:2rem;
+}
+
+.hero p{
+font-size:1rem;
+}
+
+.hero-features{
+flex-direction:column;
+align-items:center;
+}
+
+.hero-actions{
+flex-direction:column;
+gap:15px;
+}
+
+.hero-actions button{
+width:80%;
+}
+
+.grid{
+grid-template-columns:1fr;
+}
+
+
+#chatContainer{
+width:90%;
+right:5%;
+height:420px;
+}
+
+}
+
+@media (max-width:480px){
+
+.hero h2{
+font-size:1.6rem;
+}
+
+.hero p{
+font-size:0.9rem;
+}
+
+.logo{
+font-size:22px;
+}
+
+.profile-icon img{
+width:34px;
+height:34px;
+}
+
+}
+
+.feature{
+cursor:pointer;
+}
+
+.feature:hover{
+transform:translateY(-4px) scale(1.05);
 }
 
     .hero {
@@ -93,19 +152,6 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
     }
     .hero h2 { font-size:3rem; font-weight:bold; margin-bottom:12px; opacity:0; transform:translateY(20px); animation: fadeInUp 0.8s forwards; }
     .hero p { font-size:1.2rem; margin-bottom:20px; opacity:0; transform:translateY(20px); animation: fadeInUp 1s forwards; }
-    .search-bar { margin-top:20px; opacity:0; transform:translateY(20px); animation: fadeInUp 1.2s forwards; }
-    .search-bar input {
-      width:350px; padding:14px 20px;
-      border-radius:30px 0 0 30px;
-      border:none; outline:none; font-size:1rem;
-    }
-    .search-bar button {
-      border-radius:0 30px 30px 0;
-      padding:14px 24px;
-      background:#3730a3; color:#fff; font-weight:600;
-      transition:0.3s;
-    }
-    .search-bar button:hover { background:#2c1e91; transform: scale(1.05); }
 
   
     .section { text-align:center; padding:60px 10%; }
@@ -202,11 +248,51 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
   transition:0.3s;
 }
 
+.btn-group{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:10px;
+  width:100%;
+}
+
+.btn-group button{
+  width:100%;
+}
+
+.card button{
+  background:#4338ca;
+  padding:10px 18px;
+  border-radius:25px;
+}
+
 .feature:hover{
   transform:translateY(-3px);
   background:rgba(255,255,255,0.3);
 }
-    
+ .hero-actions{
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  margin-top:40px;
+}
+
+.hero-actions button{
+  padding:16px 32px;
+  font-size:18px;
+  font-weight:600;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
+  color:white;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(0,0,0,0.2);
+  transition:0.3s;
+}
+
+.hero-actions button:hover{
+  transform:scale(1.08);
+}
     #chatContainer {
       position:fixed; bottom:20px; right:20px;
       width:350px; height:450px;
@@ -222,59 +308,119 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
     .close-btn { background:transparent; border:none; color:white; font-size:18px; cursor:pointer; }
     #chatContainer iframe { width:100%; height:calc(100% - 40px); border:none; }
 
-  
-    .footer-content {
-      background: linear-gradient(90deg, #4f46e5, #3730a3);
-      color:#fff; text-align:center; padding:40px 20px;
-    }
-    .footer-content a { color:#fff; margin:0 10px; transition:0.3s; }
-    .footer-content a:hover { color:#75f2f2; }
+.nyay-footer{
+  background:#312e81;
+  color:#fff;
+  padding-top:40px;
+  margin-top:60px;
+   border-top:3px solid #6366f1;
+}
 
+.footer-container{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:30px;
+  padding:0 10%;
+}
+
+.footer-about{
+  max-width:350px;
+}
+
+.footer-links a{
+  display:block;
+  color:#fff;
+  text-decoration:none;
+  margin:6px 0;
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+  color:#75f2f2;
+}
+
+.footer-contact p{
+  margin:6px 0;
+}
+
+.footer-disclaimer{
+  background:#1e1b4b;
+  padding:15px 10%;
+  font-size:14px;
+  margin-top:25px;
+}
+
+.footer-bottom{
+  text-align:center;
+  padding:15px;
+  background:#0f172a;
+  font-size:14px;
+}
+
+
+.navbar { position: sticky; top: 0; z-index: 100; background: linear-gradient(90deg, #4f46e5, #75f2f2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); backdrop-filter: blur(8px); } .nav-content { display: flex; justify-content: space-between; align-items: center; padding: 15px 8%; } .logo { font-size: 28px; font-weight: 700; color: #fff; letter-spacing: 1px; } nav { display: flex; gap: 12px; } nav a { color: #fff; font-weight: 600; padding: 10px 16px; border-radius: 10px; text-decoration: none; transition: 0.3s; } nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: #fff; transition: 0.3s; } nav a:hover::after { width: 60%; } nav a:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+.ai-float:hover{
+  transform:scale(1.1);
+}
     @keyframes fadeInUp { to{ opacity:1; transform:translateY(0);} }
 
+  button{
+transition:all 0.3s ease;
+}
+
+button:hover{
+transform:translateY(-3px) scale(1.05);
+}
+button{
+transition:all 0.3s ease;
+}
+
+button:hover{
+transform:translateY(-3px) scale(1.05);
+}
+   .hero{
+animation:heroFade 1s ease;
+}
+
+@keyframes heroFade{
+from{
+opacity:0;
+transform:translateY(-20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+.card{
+opacity:0;
+transform:translateY(40px);
+transition:0.6s ease;
+}
+
+.card.show{
+opacity:1;
+transform:translateY(0);
+} 
     
-    @media(max-width:600px){
-      .search-bar input{ width:90vw; max-width:320px; }
-      .search-bar button{ width:100%; margin-top:8px; }
-      .grid{ grid-template-columns:1fr; gap:14px; }
-      .hero h2{ font-size:2rem; } .hero p{ font-size:1rem; }
-    }
   </style>
 </head>
 <body>
+<header class="navbar">
+  <div class="nav-content">
 
-   <header class="navbar">
-    <div class="nav-content">
-      <h1 class="logo">⚖ NyaySetu</h1>
+    <h1 class="logo">⚖ NyaySetu</h1>
 
-      <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-
-      <nav id="navMenu">
-        <a href="index.html">Home</a>
-        <a href="advocate.html">Find Advocate</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="javascript:void(0)" onclick="toggleChat()">💬 NyayMitra</a>
-        <a href="news.html">LegalNews</a>
-        <a href="user-chat.html">Chat Section</a>
-      </nav>
-
-      <a href="profile.html" class="profile-icon">
-        <img src="user.jpg" alt="Profile">
-      </a>
+    <div class="profile-icon">
+      <a href="profile.html" class="profile-icon"> <img src="user.jpg" alt="Profile"> </a>
     </div>
-  </header>
-
-  <div id="chatContainer">
-    <div class="chat-header">
-      <span>🤖 NyayMitra</span>
-      <button class="close-btn" onclick="toggleChat()">✖</button>
-    </div>
-    <iframe src="chatbot.html"></iframe>
   </div>
-
+</header>
 
   <section class="hero">
-  <h2>Find Trusted Advocates & Legal Help</h2>
+  <h1>Find Trusted Advocates & Legal Help</h1>
   
   <p>
     Connect with verified lawyers, get legal guidance, and resolve your
@@ -282,53 +428,180 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
   </p>
 
   <div class="hero-features">
-    <div class="feature">
-      ⚖ Verified Advocates
-    </div>
+    <div class="feature" onclick="window.location.href='advocate.html'">
+👨‍⚖ Verified Advocates
+</div>
 
-    <div class="feature">
-      📄 Legal Document Help
-    </div>
+<div class="feature" onclick="window.location.href='legal.html'">
+📄 LegalDoc AI
+</div>
 
-    <div class="feature">
-      🤖 AI Legal Assistant
-    </div>
+<div class="feature" onclick="toggleChat()">
+🤖 AI Legal Assistant
+</div>
+
+<div class="feature" onclick="window.location.href='user-chat.html'">
+💬 Chat with Lawyers
+</div>
   </div>
 </section>
 
-  <section id="advocates" class="section">
-    <h3>👨‍⚖ Find an Advocate</h3>
-    <p>Search advocates by specialization and region</p>
-    <div class="grid">
-      <div class="card">
-        <h4>Criminal law</h4>
-        <p>Experienced lawyers in criminal defense and legal rights</p>
-      </div>
-      <div class="card">
-        <h4>Family law</h4>
-        <p>Divorce, custody, marriage disputes and more</p>
-      </div>
-      <div class="card">
-        <h4>Corporate law</h4>
-        <p>Business contracts, disputes, compliance support</p>
+  <section class="section">
+  <h1>📚 Legal Awareness</h1>
+  <p>Learn about your legal rights and important laws</p>
+
+  <div class="grid">
+
+    <div class="card">
+      <h2>⚖ Know Your Rights</h2>
+      <p>Understand your fundamental legal rights in India.</p>
+      <button onclick="showLegalInfo('rights')">Learn More</button>
+    </div>
+
+    <div class="card">
+      <h2>👩 Women Safety Laws</h2>
+      <p>Important legal protections for women and safety laws.</p>
+      <button onclick="showLegalInfo('women-laws')">Learn More</button>
+    </div>
+
+    <div class="card">
+      <h2>🚔 FIR Guide</h2>
+      <p>Step-by-step guide to filing an FIR at a police station.</p>
+      <button onclick="showLegalInfo('fir-guide')">Learn More</button>
+    </div>
+
+    <div class="card">
+      <h2>📄 Police Complaint Guide</h2>
+      <p>How to file a police complaint properly.</p>
+      <button onclick="showLegalInfo('complaint-guide')">Learn More</button>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <h1>🚨 Emergency Legal Help</h1>
+  <p>Immediate assistance for urgent legal situations</p>
+
+  <div class="grid">
+
+    <div class="card">
+  <h2>🚨 Domestic Violence</h2>
+  <p>Get immediate protection and legal support.</p>
+
+  <div class="btn-group">
+   <a href="tel:1091">
+<button class="action-btn">Call Helpline</button>
+</a>
+    <button onclick="connectLawyer()">Connect Lawyer</button>
+  </div>
+</div>
+
+    <div class="card">
+      <h2>💻 Cyber Fraud</h2>
+      <p>Report online scams and protect your finances.</p>
+
+      <div class="btn-group">
+        <a href="https://cybercrime.gov.in" target="_blank">
+<button class="action-btn">Report Fraud</button>
+</a>
+        <button onclick="connectLawyer()">Connect Lawyer</button>
       </div>
     </div>
-  </section>
 
-  
-
-  <footer>
-    <div class="footer-content">
-      <h3>⚖ NyaySetu</h3>
-      <p>Connect with trusted advocates and get legal help</p>
-      <p>&copy; 2026 Law. All rights reserved.</p>
+    <div class="card">
+      <h2>👮 Police Harassment</h2>
+      <p>Know your rights during police interaction.</p>
+      <div class="btn-group">
+        <a href="tel:100">
+          <button class="action-btn">Report Harassment</button>
+        </a>
+        <button onclick="connectLawyer()">Connect Lawyer</button>
+      </div>
+     
     </div>
-  </footer>
+
+    <div class="card">
+      <h2>📍 Nearest Police Station and Lawyers</h2>
+      <p>Find the nearest police station and verified lawyers quickly.</p>
+      <div class="btn-group">
+        <button onclick="findPolice()">Find Nearby</button>
+        <button onclick="connectLawyer()">Connect Lawyer</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<div id="chatContainer">
+
+  <div class="chat-header">
+    <span>🤖 NyayMitra AI</span>
+    <button class="close-btn" onclick="toggleChat()">✖</button>
+  </div>
+
+  <iframe src="chatbot.html"></iframe>
+
+</div>
+
+
+<div id="legalPopup" class="legal-popup">
+  <div class="legal-content">
+    <span class="close-popup" onclick="closePopup()">✖</span>
+    <div id="legalText"></div>
+  </div>
+</div>
+
+  <footer class="nyay-footer">
+
+ <div class="footer-container">
+
+  <div class="footer-about">
+    <h1>⚖ NyaySetu</h1>
+    <p>
+      NyaySetu is a digital legal assistance platform that helps users 
+      understand their legal rights, connect with advocates, and access 
+      emergency legal resources easily.
+    </p>
+  </div>
+
+  <div class="footer-links">
+    <h2>Quick Links</h2>
+    <a href="user.html">🏠 Home</a>
+    <a href="advocate.html">👨‍⚖ Find Advocate</a>
+    <a href="legal.html">📄 Document Help</a>
+    <a href="news.html">⚖ Legal News</a>
+    <a href="contact-1.html">📩 Contact Support</a>
+    <a href="about.html">🛠 About Us</a>
+  </div>
+
+  <div class="footer-contact">
+    <h2>Contact</h2>
+    <p>📧 Email: support@nyaysetu.in</p>
+    <p>📞 Mobile: +91 6388465277</p>
+    <p>📍 India</p>
+  </div>
+
+</div>
+
+  <div class="footer-disclaimer">
+    <p>
+      <h3>Disclaimer:</h3> NyaySetu provides general legal information 
+      for educational purposes only. The information available on this platform 
+      does not constitute professional legal advice. Users are encouraged to 
+      consult a qualified legal professional for specific legal matters.
+    </p>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 NyaySetu. All Rights Reserved.</p>
+  </div>
+
+</footer>
 
   <script>
-   const BACKEND = "https://nyaysetu-backend-1-laql.onrender.com";
-
-  
+   
     function toggleMenu() {
       document.getElementById("navMenu").classList.toggle("active");
     }
@@ -350,9 +623,105 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
     }
 
     
+function connectLawyer(){
+  window.location.href = "advocate.html";
+}
 
-   
+function aiAdvice(){
+  toggleChat(); 
+}
 
+function findPolice(){
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position){
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+
+      const mapUrl = `https://www.google.com/maps/search/police+station/@${lat},${lon},14z`;
+
+      window.open(mapUrl, "_blank");
+    });
+  } else {
+    alert("Location access not supported.");
+  }
+}
+
+function showLegalInfo(type){
+
+let content = "";
+
+if(type === "rights"){
+content = `
+<h3>Know Your Rights</h3>
+<p>1. Right to remain silent.</p>
+<p>2. Right to know the reason for arrest.</p>
+<p>3. Right to legal representation.</p>
+<p>4. Right to medical examination.</p>
+`;
+}
+
+if(type === "women-laws"){
+content = `
+<h3>Women Safety Laws</h3>
+<p>1. Domestic Violence Act 2005</p>
+<p>2. Sexual Harassment at Workplace Act</p>
+<p>3. Dowry Prohibition Act</p>
+<p>4. IPC Section 354 protection</p>
+`;
+}
+
+if(type === "fir-guide"){
+content = `
+<h3>FIR Guide</h3>
+<p>1. Visit nearest police station.</p>
+<p>2. Explain incident clearly.</p>
+<p>3. Provide evidence if available.</p>
+<p>4. Request FIR copy.</p>
+`;
+}
+
+if(type === "complaint-guide"){
+content = `
+<h3>Police Complaint Guide</h3>
+<p>1. Write complaint clearly.</p>
+<p>2. Mention date and location.</p>
+<p>3. Attach evidence.</p>
+<p>4. Submit to police station.</p>
+`;
+}
+
+document.getElementById("legalText").innerHTML = content;
+document.getElementById("legalPopup").style.display = "flex";
+
+}
+
+function closePopup(){
+document.getElementById("legalPopup").style.display = "none";
+}
+
+function toggleChat() {
+  const chat = document.getElementById("chatContainer");
+
+  if (chat.style.display === "block") {
+    chat.style.display = "none";
+  } else {
+    chat.style.display = "block";
+  }
+}
+
+/* SCROLL ANIMATION */
+
+const observer = new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+});
+
+document.querySelectorAll(".card").forEach((el)=>{
+observer.observe(el);
+});
 
   </script>
 </body>

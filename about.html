@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>About NyaySetu</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(120deg,#4f46e5,#06b6d4);
+color:#333;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:40px 20px;
+}
+
+.header{
+text-align:center;
+color:white;
+margin-bottom:40px;
+}
+
+.header h1{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.header p{
+font-size:18px;
+opacity:0.9;
+}
+.card{
+background:white;
+padding:30px;
+border-radius:14px;
+margin-bottom:30px;
+box-shadow:0 8px 25px rgba(0,0,0,0.08);
+animation:fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.card h2{
+color:#1e3a8a;
+margin-bottom:10px;
+}
+
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.feature-box{
+background:#eef2ff;
+padding:20px;
+border-radius:10px;
+text-align:center;
+transition:all 0.3s ease;
+}
+
+.feature-box:hover{
+transform:translateY(-8px) scale(1.03);
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.feature-box h3{
+margin-top:10px;
+color:#1e40af;
+}
+
+.steps{
+margin-top:15px;
+}
+
+.steps li{
+margin-bottom:10px;
+line-height:1.6;
+}
+
+.faq-item{
+border-bottom:1px solid #ddd;
+padding:12px 0;
+}
+
+.faq-question{
+cursor:pointer;
+font-weight:600;
+padding:12px;
+background:#eef2ff;
+border-radius:6px;
+position:relative;
+transition:0.3s;
+}
+
+.faq-question:hover{
+background:#e0e7ff;
+}
+
+.faq-question::after{
+content:"+";
+position:absolute;
+right:15px;
+font-size:20px;
+font-weight:bold;
+}
+
+.faq-question.active::after{
+content:"−";
+}
+
+.faq-answer{
+max-height:0;
+overflow:hidden;
+transition:max-height 0.4s ease;
+padding:0 10px;
+color:#555;
+}
+
+.guide{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.guide-box{
+background:#f8fafc;
+border:1px solid #e5e7eb;
+padding:20px;
+border-radius:10px;
+}
+
+.faq-item{
+border-bottom:1px solid #e5e7eb;
+padding:15px 0;
+}
+
+.faq-question{
+cursor:pointer;
+font-weight:600;
+padding:14px;
+background:#eef2ff;
+border-radius:8px;
+position:relative;
+transition:all 0.3s ease;
+}
+
+.faq-question:hover{
+background:#e0e7ff;
+}
+
+.faq-question::after{
+content:"+";
+position:absolute;
+right:15px;
+font-size:20px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.faq-question.active::after{
+content:"−";
+}
+
+.faq-answer{
+max-height:0;
+overflow:hidden;
+transition:max-height 0.4s ease,padding 0.3s ease;
+padding:0 14px;
+color:#555;
+}
+
+.footer{
+text-align:center;
+color:white;
+margin-top:40px;
+font-size:14px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+.stat-box{
+background:#eef2ff;
+padding:25px;
+border-radius:12px;
+text-align:center;
+transition:0.3s;
+}
+
+.stat-box:hover{
+transform:translateY(-5px);
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
+}
+
+.stat-box h3{
+font-size:32px;
+color:#1e3a8a;
+margin-bottom:5px;
+}
+
+.stat-box p{
+color:#374151;
+font-size:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<h1>⚖ About NyaySetu</h1>
+<p>AI Powered Legal Assistance Platform</p>
+</div>
+
+<div class="card">
+
+<h2>What is NyaySetu?</h2>
+
+<p>
+NyaySetu is a digital legal assistance platform designed to simplify access to justice.
+The platform helps users generate legal documents, understand legal procedures,
+and connect with advocates for professional guidance.
+</p>
+
+<p>
+Our goal is to make legal help simple, accessible, and affordable for everyone.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>Key Features</h2>
+
+<div class="features">
+
+<div class="feature-box">
+<h3>👨‍⚖ Verified Advocates</h3>
+<p>Connect with licensed and verified legal professionals.</p>
+</div>
+
+<div class="feature-box">
+<h3>📄 AI Legal Documents</h3>
+<p>Access ready-made professional document templates</p>
+</div>
+
+
+<div class="feature-box">
+<h3>💬 Advocate Chat</h3>
+<p>Connect directly with legal experts.</p>
+</div>
+
+<div class="feature-box">
+    <h3>🤖 AI Legal Chatbot</h3>
+    <p>Get instant legal advice powered by AI.</p>
+</div>
+
+
+<div class="feature-box">
+<h3>🚨 Emergency Legal Help</h3>
+<p>Quick legal assistance in urgent situations.</p>
+</div>
+
+<div class="feature-box">
+<h3>📚 Legal Guidance</h3>
+<p>Learn about legal rights and procedures.</p>
+</div>
+
+
+</div>
+
+
+<div class="card">
+
+<h2>Our Mission</h2>
+
+<p>
+Our mission is to make legal services accessible and understandable for everyone.
+NyaySetu aims to bridge the gap between citizens and the legal system by using
+modern technology and AI-powered solutions.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>Our Vision</h2>
+
+<p>
+Our vision is to build a future where every individual can easily understand
+their legal rights, create important legal documents instantly, and get
+professional legal guidance without complexity or delay.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>Why Choose NyaySetu?</h2>
+
+<div class="features">
+
+<div class="feature-box">
+<h3>⚡ Fast</h3>
+<p>Generate legal documents within seconds.</p>
+</div>
+
+<div class="feature-box">
+<h3>🤖 AI Powered</h3>
+<p>Smart AI generates accurate legal drafts.</p>
+</div>
+
+<div class="feature-box">
+<h3>🔒 Secure</h3>
+<p>Your information remains safe and private.</p>
+</div>
+
+<div class="feature-box">
+<h3>📱 Easy to Use</h3>
+<p>Simple interface for anyone to use.</p>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card"> <h2>How NyaySetu Works</h2>
+     <ul class="steps"> <li><b>Step 1:</b> Visit the NyaySetu platform and explore available legal services.</li>
+         <li><b>Step 2:</b> If you need a legal document, choose a template or use the <b>AI Legal Document Generator</b>.</li>
+          <li><b>Step 3:</b> Enter required details such as names, location, agreement terms, or conditions.</li> 
+          <li><b>Step 4:</b> Click the <b>Generate Document</b> button and download the document instantly.</li> 
+          <li><b>Step 5:</b> If you need professional help, use the <b>Find Advocate</b> feature to search for lawyers based on your legal issue.</li> 
+          <li><b>Step 6:</b> You can also use the <b>Chat with Advocate</b> option to ask legal questions directly.</li>
+           <li><b>Step 7:</b> For quick guidance, interact with the <b>AI Legal Chatbot</b> to understand legal procedures and rights.</li>
+            <li><b>Step 8:</b> Stay updated with the latest laws and court updates through the <b>Legal News</b> section.
+</li> <li><b>Step 9:</b> In urgent situations, access the <b>Emergency Legal Help</b> feature for quick support.</li>
+ <li><b>Step 10:</b> Always review generated documents and consult a licensed advocate before official use.</li> </ul> 
+</div>
+
+
+<div class="card">
+
+<h2>Platform Guide</h2>
+
+<div class="guide">
+
+<div class="guide-box">
+<h3>AI Generator</h3>
+<p>Create custom legal documents using AI.</p>
+</div>
+
+<div class="guide-box">
+<h3>Chat with Advocate</h3>
+<p>Ask legal questions and get expert advice.</p>
+</div>
+
+<div class="guide-box">
+<h3>Emergency Help</h3>
+<p>Get immediate legal support during urgent situations.</p>
+</div>
+
+<div class="guide-box">
+<h3>AI Legal Chatbot</h3>
+<p>Ask legal questions and get instant advice.</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Our Impact</h2>
+
+<div class="stats">
+
+<div class="stat-box">
+<h3>500+</h3>
+<p>Verified Advocates</p>
+</div>
+
+<div class="stat-box">
+<h3>10,000+</h3>
+<p>Legal Documents Generated</p>
+</div>
+
+<div class="stat-box">
+<h3>5,000+</h3>
+<p>Legal Queries Solved</p>
+</div>
+
+<div class="stat-box">
+<h3>24/7</h3>
+<p>AI Legal Assistance</p>
+</div>
+
+</div>
+
+</div>
+<div class="card">
+
+<h2>FAQs</h2>
+
+<div class="faq-item">
+<div class="faq-question">How does the AI Legal Document Generator work?</div>
+<div class="faq-answer">
+You simply describe the legal document you need, and the AI system generates a professional draft based on your input.
+</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-question">Can I connect with a real advocate on NyaySetu?</div>
+<div class="faq-answer">
+Yes. NyaySetu allows users to find verified advocates and chat with them for professional legal advice.
+</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-question">Is my personal information secure on NyaySetu?</div>
+<div class="faq-answer">
+Yes. NyaySetu uses secure systems to protect user information and maintain privacy.
+</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-question">Can I use NyaySetu for emergency legal help?</div>
+<div class="faq-answer">
+Yes. The Emergency Legal Help feature provides quick assistance and guidance during urgent legal situations.
+</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-question">Does NyaySetu provide legal news and updates?</div>
+<div class="faq-answer">
+Yes. The Legal News section keeps users informed about important laws, court decisions, and legal updates.
+</div>
+</div>
+
+<div class="faq-item">
+<div class="faq-question">Do I need legal knowledge to use NyaySetu?</div>
+<div class="faq-answer">
+No. NyaySetu is designed with a simple interface so anyone can easily generate documents and access legal help.
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="footer">
+© 2026 NyaySetu | AI Powered Legal Platform
+</div>
+
+<script>
+
+const faqQuestions = document.querySelectorAll(".faq-question");
+
+faqQuestions.forEach(question => {
+
+question.addEventListener("click", () => {
+
+const answer = question.nextElementSibling;
+
+// close other answers
+document.querySelectorAll(".faq-answer").forEach(a=>{
+if(a !== answer){
+a.style.maxHeight = null;
+a.previousElementSibling.classList.remove("active");
+}
+});
+
+question.classList.toggle("active");
+
+if(answer.style.maxHeight){
+answer.style.maxHeight = null;
+}else{
+answer.style.maxHeight = answer.scrollHeight + "px";
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

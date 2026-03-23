@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>NyaySetu</title>
+  <title>NyaySetu | Advocate</title>
   <style>
     
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -48,6 +48,23 @@ nav a {
 
 nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: #fff; transition: 0.3s; } nav a:hover::after { width: 60%; } nav a:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
+.hero-features{ display:flex; justify-content:center; gap:20px; margin-top:30px; flex-wrap:wrap; }
+
+.hero-features .feature {
+  cursor: pointer !important;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.hero-features .feature:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: rgba(255,255,255,0.3);
+  cursor: pointer !important;
+}
 
 
 .profile-icon img {
@@ -288,6 +305,59 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
       .grid{ grid-template-columns:1fr; gap:14px; }
       .hero h2{ font-size:2rem; } .hero p{ font-size:1rem; }
     }
+
+    
+.nyay-footer{
+  background:#312e81;
+  color:#fff;
+  padding-top:40px;
+  margin-top:60px;
+   border-top:3px solid #6366f1;
+}
+
+.footer-container{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:30px;
+  padding:0 10%;
+}
+
+.footer-about{
+  max-width:350px;
+}
+
+.footer-links a{
+  display:block;
+  color:#fff;
+  text-decoration:none;
+  margin:6px 0;
+  transition:0.3s;
+}
+
+.footer-links a:hover{
+  color:#75f2f2;
+}
+
+.footer-contact p{
+  margin:6px 0;
+}
+
+.footer-disclaimer{
+  background:#1e1b4b;
+  padding:15px 10%;
+  font-size:14px;
+  margin-top:25px;
+}
+
+.footer-bottom{
+  text-align:center;
+  padding:15px;
+  background:#0f172a;
+  font-size:14px;
+}
+
+
   </style>
 </head>
 <body>
@@ -296,17 +366,6 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
    <header class="navbar">
     <div class="nav-content">
       <h1 class="logo">⚖ NyaySetu</h1>
-
-      <span class="menu-toggle" onclick="toggleMenu()">☰</span>
-
-      <nav id="navMenu">
-        <a href="index.html">Home</a>
-        <a href="case.html">Case Management</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="javascript:void(0)" onclick="toggleChat()">💬 NyayMitra</a>
-        <a href="news.html">LegalNews</a>
-        <a href="adv-chat.html">Chat Section</a>
-      </nav>
 
       <a href="profile.html" class="profile-icon">
         <img src="user.jpg" alt="Profile">
@@ -324,67 +383,96 @@ nav a::after { content: ''; position: absolute; bottom: 4px; left: 50%; transfor
   </div>
 
   <section class="hero">
-  <h2>Manage Your Legal Practice</h2>
 
-  <p>
-    Handle consultation requests, manage cases, and connect with clients
-    through your professional legal dashboard.
-  </p>
+<h1>Welcome Advocate</h1>
 
- <div class="hero-stats">
+<p>
+Manage your clients, track cases, communicate with users,
+and use AI-powered legal tools on NyaySetu.
+</p>
 
-  <div class="stat">
-    <div class="stat-icon">👥</div>
-    <h3>Case Organization</h3>
-    <span>Manage client requests and keep case information structured for better legal workflow.</span>
+<div class="hero-features">
+
+<div class="feature" onclick="location.href='case.html'">
+📂 Manage Cases
+</div>
+
+
+<div class="feature" onclick="location.href='legal.html'">
+📄 Legal DocAI
+</div>
+
+<div class="feature" onclick="toggleChat()">
+🤖 AI Legal Assistant
+</div>
+
+<div class="feature" onclick="location.href='adv-chat.html'">
+💬 Chat with Clients
+</div>
+
+
+</section>
+
+<div id="chatContainer">
+
+  <div class="chat-header">
+    <span>🤖 NyayMitra AI</span>
+    <button class="close-btn" onclick="toggleChat()">✖</button>
   </div>
 
-  <div class="stat">
-    <div class="stat-icon">⚖️</div>
-    <h3>Legal Case Handling</h3>
-    <span>Track ongoing matters and maintain proper records for professional case management.</span>
+  <iframe src="chatbot.html"></iframe>
+
+</div>
+
+  <footer class="nyay-footer">
+
+ <div class="footer-container">
+
+  <div class="footer-about">
+    <h1>⚖ NyaySetu</h1>
+    <p>
+      NyaySetu is a digital legal assistance platform that helps users 
+      understand their legal rights, connect with advocates, and access 
+      emergency legal resources easily.
+    </p>
   </div>
 
-  <div class="stat">
-    <div class="stat-icon">📩</div>
-    <h3>Client Requests</h3>
-    <span>Review consultation requests and respond to clients through a simplified system.</span>
+  <div class="footer-links">
+    <h2>Quick Links</h2>
+    <a href="client.html">🏠 Home</a>
+    <a href="case.html">📂 Manage Cases</a>
+    <a href="legal.html">📄 Document Help</a>
+    <a href="news.html">⚖ Legal News</a>
+    <a href="contact-2.html">📩 Contact Support</a>
+    <a href="about.html">🛠 About Us</a>
+  </div>
+
+  <div class="footer-contact">
+    <h2>Contact</h2>
+    <p>📧 Email: support@nyaysetu.in</p>
+    <p>📞 Mobile: +91 6388465277</p>
+    <p>📍 India</p>
   </div>
 
 </div>
-</section>
 
-  <section id="advocates" class="section">
-    <h3>📊 Overview</h3>
-  <p>Your quick legal performance summary</p>
+  <div class="footer-disclaimer">
+    <p>
+      <h3>Disclaimer:</h3> NyaySetu provides general legal information 
+      for educational purposes only. The information available on this platform 
+      does not constitute professional legal advice. Users are encouraged to 
+      consult a qualified legal professional for specific legal matters.
+    </p>
+  </div>
 
-    <div class="grid">
-      <div class="card">
-         <h4>Total Clients</h4>
-      <p>Manage all your active & past clients</p>
-      </div>
-      <div class="card">
-         <h4>Upcoming Hearings</h4>
-      <p>View hearing dates, reminders & case updates</p>
-      </div>
-      <div class="card">
-       <h4>Pending Documents</h4>
-      <p>Upload FIRs, affidavits, notices & agreements</p>
-      </div>
-    </div>
-  </section>
+  <div class="footer-bottom">
+    <p>© 2026 NyaySetu. All Rights Reserved.</p>
+  </div>
 
-  <footer>
-    <div class="footer-content">
-      <h3>⚖ NyaySetu</h3>
-      <p>Connect with trusted advocates and get legal help</p>
-      <p>&copy; 2026 Law. All rights reserved.</p>
-    </div>
-  </footer>
+</footer>
 
   <script>
-    const BACKEND = "https://nyaysetu-backend-sme2.onrender.com";
-
+   
     function toggleMenu() {
       document.getElementById("navMenu").classList.toggle("active");
     }

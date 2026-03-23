@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Document Help</title>
+
+<style>
+
+body{
+margin:0;
+font-family:'Segoe UI',sans-serif;
+background:linear-gradient(90deg,#4f46e5,#75f2f2);
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:2rem;
+background:#fff;
+border-radius:12px;
+margin-top:30px;
+box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+
+h1{
+text-align:center;
+color:#1e3a8a;
+}
+
+h2{
+color:#1e40af;
+margin-top:1.5rem;
+}
+
+p{
+color:#374151;
+line-height:1.6;
+}
+
+.template-list{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:1rem;
+margin-top:1rem;
+}
+
+.template-card{
+ border:1px solid #c7d2fe;
+ background:#eff6ff;
+ padding:1rem;
+ border-radius:10px;
+ transition:all 0.35s ease;
+ cursor:pointer;
+ position:relative;
+ overflow:hidden;
+}
+
+.template-card:hover{
+ transform:translateY(-6px) scale(1.02);
+ box-shadow:0 12px 25px rgba(0,0,0,0.18);
+}
+
+.ai-generator{
+margin-top:30px;
+padding:20px;
+background:#f8fafc;
+border-radius:10px;
+border:1px solid #e5e7eb;
+}
+
+textarea{
+width:100%;
+height:120px;
+padding:10px;
+border-radius:6px;
+border:1px solid #d1d5db;
+margin-top:10px;
+}
+
+button{
+padding:10px 20px;
+background:#4f46e5;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:500;
+}
+
+button:hover{
+background:#4338ca;
+}
+button{
+ position:relative;
+ overflow:hidden;
+}
+
+button::after{
+ content:"";
+ position:absolute;
+ width:0;
+ height:0;
+ background:rgba(255,255,255,0.4);
+ border-radius:50%;
+ transform:translate(-50%,-50%);
+ left:50%;
+ top:50%;
+ transition:width 0.4s ease,height 0.4s ease;
+}
+
+button:active::after{
+ width:300px;
+ height:300px;
+}
+.tips{
+margin-top:30px;
+background:#f0fdf4;
+border-left:4px solid #22c55e;
+padding:1rem;
+border-radius:6px;
+}
+
+.disclaimer{
+margin-top:20px;
+background:#fff4f4;
+border-left:4px solid #ef4444;
+padding:1rem;
+border-radius:6px;
+}
+/* Page Load Animation */
+.container{
+ animation: fadeUp 0.8s ease;
+}
+
+@keyframes fadeUp{
+ from{
+  opacity:0;
+  transform:translateY(40px);
+ }
+ to{
+  opacity:1;
+  transform:translateY(0);
+ }
+}
+.hidden{
+ opacity:0;
+ transform:translateY(40px);
+ transition:all 0.7s ease;
+}
+
+.show{
+ opacity:1;
+ transform:translateY(0);
+}
+
+.faq{
+margin-top:30px;
+}
+
+.faq-item{
+border-bottom:1px solid #ddd;
+padding:10px 0;
+}
+
+.faq-question{
+cursor:pointer;
+font-weight:bold;
+position:relative;
+padding-right:20px;
+}
+
+.faq-question::after{
+content:"+";
+position:absolute;
+right:0;
+}
+
+.faq-question.active::after{
+content:"−";
+}
+.faq-answer{
+ max-height:0;
+ overflow:hidden;
+ transition:max-height 0.4s ease;
+ color:#374151;
+}
+.search-box{
+margin:20px 0;
+text-align:center;
+}
+
+#templateSearch{
+width:100%;
+max-width:400px;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:15px;
+}
+
+#templateSearch:focus{
+outline:none;
+border-color:#4f46e5;
+box-shadow:0 0 5px rgba(79,70,229,0.4);
+}
+
+.footer{
+text-align:center;
+margin-top:30px;
+padding:1rem;
+font-size:14px;
+color:#555;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Legal Document Help</h1>
+<strong><p>Generate legal documents quickly and safely using templates or AI.</p></strong>
+
+<h2>📄 Legal Document Templates</h2>
+
+<div class="search-box">
+<input type="text" id="templateSearch" placeholder="🔍 Search legal document template...">
+</div>
+
+<!-- Property -->
+<h2>🏠 Property & Rental</h2>
+
+<div class="template-list">
+
+<div class="template-card" data-template="rental">
+<h3>Rental Agreement</h3>
+<p>Create agreements for renting property.</p>
+</div>
+
+<div class="template-card" data-template="lease">
+<h3>Lease Agreement</h3>
+<p>Long-term property lease contract.</p>
+</div>
+
+<div class="template-card" data-template="sale">
+<h3>Property Sale Agreement</h3>
+<p>Agreement for selling property.</p>
+</div>
+
+</div>
+
+
+<!-- Business -->
+
+<h2>🤝 Business & Contracts</h2>
+
+<div class="template-list">
+
+<div class="template-card" data-template="nda">
+<h3>NDA</h3>
+<p>Protect confidential information.</p>
+</div>
+
+<div class="template-card" data-template="service">
+<h3>Service Contract</h3>
+<p>Agreement for services between two parties.</p>
+</div>
+
+<div class="template-card" data-template="partnership">
+<h3>Partnership Agreement</h3>
+<p>Define partnership terms.</p>
+</div>
+
+<div class="template-card" data-template="freelance">
+<h3>Freelance Contract</h3>
+<p>Agreement for freelance work.</p>
+</div>
+
+</div>
+
+
+<!-- Employment -->
+
+<h2>👔 Employment Documents</h2>
+
+<div class="template-list">
+
+<div class="template-card" data-template="offer">
+<h3>Employment Offer Letter</h3>
+<p>Official job offer document.</p>
+</div>
+
+<div class="template-card" data-template="internship">
+<h3>Internship Agreement</h3>
+<p>Agreement for internship roles.</p>
+</div>
+
+<div class="template-card" data-template="resignation">
+<h3>Resignation Letter</h3>
+<p>Formal resignation letter.</p>
+</div>
+
+</div>
+
+
+<!-- Legal Authority -->
+
+<h2>📝 Legal Authority</h2>
+
+<div class="template-list">
+
+<div class="template-card" data-template="poa">
+<h3>Power of Attorney</h3>
+<p>Authorize someone legally.</p>
+</div>
+
+<div class="template-card" data-template="affidavit">
+<h3>Affidavit</h3>
+<p>Written sworn statement.</p>
+</div>
+
+<div class="template-card" data-template="authorization">
+<h3>Authorization Letter</h3>
+<p>Allow someone to act on your behalf.</p>
+</div>
+
+</div>
+
+
+<!-- Financial -->
+
+<h2>💰 Financial Agreements</h2>
+
+<div class="template-list">
+
+<div class="template-card" data-template="loan">
+<h3>Loan Agreement</h3>
+<p>Agreement for lending money.</p>
+</div>
+
+<div class="template-card" data-template="payment">
+<h3>Payment Agreement</h3>
+<p>Define payment schedule.</p>
+</div>
+
+<div class="template-card" data-template="debt">
+<h3>Debt Settlement Agreement</h3>
+<p>Resolve outstanding debts.</p>
+</div>
+
+</div>
+
+
+
+<h2>📝 How to Generate an AI Legal Document</h2>
+<ul class="step-list">
+
+<li><b>Step 1: Describe Your Requirement</b><br>
+In the AI prompt box, clearly write what type of legal document you want.  
+Example: <i>“Create a rental agreement between Ram and Shyam for 11 months in Delhi.”</i>
+</li>
+
+<li><b>Step 2: Include Important Details</b><br>
+Mention key information such as names of parties, duration, location, payment terms, or any special conditions you want in the document.
+</li>
+
+<li><b>Step 3: Click “Generate Document”</b><br>
+Press the <b>Generate Document</b> button. The system will create a legal draft based on the information you provided.
+</li>
+
+<li><b>Step 4: Download the Document</b><br>
+Once the document is generated, it will automatically download as a PDF file to your device.
+</li>
+
+<li><b>Step 5: Review Before Use</b><br>
+Carefully read the document and make sure all details are correct before using it.
+</li>
+
+<li><b>Step 6: Get Legal Approval (Recommended)</b><br>
+For official or court use, it is recommended to have the document reviewed by a licensed advocate.
+</li>
+
+</ul>
+
+
+<div class="ai-generator">
+
+<h2>⚖ AI Legal Document Generator</h2>
+
+<p>Describe the legal document you want.</p>
+
+<textarea id="prompt"
+placeholder="Example: Create a rental agreement between Ram and Shyam for 11 months rent in Delhi">
+</textarea>
+
+<br><br>
+
+<button onclick="generateAI()">Generate Document</button>
+
+</div>
+
+
+<div class="tips">
+
+<h2>💡 Tips</h2>
+
+<ul>
+<li>Double-check names and dates.</li>
+<li>AI documents are drafts.</li>
+<li>Consult a lawyer for legal submission.</li>
+</ul>
+
+</div>
+
+<div class="disclaimer" style="background:#fff4f4;border-left:4px solid #ef4444;padding:1rem;margin-bottom:2rem;border-radius:6px;">
+     <strong>⚠ Disclaimer:</strong> The documents generated here are drafts using AI.
+      They are <b>not legally binding</b> until reviewed, approved, and signed/stamped by a licensed advocate. 
+      Always consult a lawyer before submitting any legal document to a court or official authority. 
+</div>
+
+<div class="faq"> <h2>❓ FAQs</h2> <div class="faq-item"> <div class="faq-question">Can I customize the document later?</div> <div class="faq-answer">Yes, you can edit the generated document in Word or PDF editor.</div> </div> <div class="faq-item"> <div class="faq-question">Are these documents legally binding?</div> <div class="faq-answer">They are drafts; for critical legal matters, always consult a licensed advocate.</div> </div> <div class="faq-item"> <div class="faq-question">Can AI create completely new documents?</div> <div class="faq-answer">Yes, type instructions and AI will generate a draft. Always review carefully.</div> </div> </div> </div>
+
+<div class="footer">
+© 2026 NyaySetu | AI Powered Legal Platform
+</div>
+
+
+<script>
+
+const questions=document.querySelectorAll(".faq-question");
+
+questions.forEach(q=>{
+q.addEventListener("click",()=>{
+
+q.classList.toggle("active")
+
+const ans=q.nextElementSibling
+if(ans.style.maxHeight){
+ ans.style.maxHeight=null;
+}else{
+ ans.style.maxHeight=ans.scrollHeight+"px";
+}
+
+})
+})
+
+
+function generateAI(){
+
+const prompt=document.getElementById("prompt").value
+
+fetch("https://nyaysetu-backend-sme2.onrender.com/api/generate-ai-doc",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({prompt})
+
+})
+
+.then(res=>res.blob())
+
+.then(blob=>{
+
+const url=window.URL.createObjectURL(blob)
+
+const a=document.createElement("a")
+
+a.href=url
+a.download="legal_document.pdf"
+
+a.click()
+
+})
+
+.catch(err=>{
+console.log(err)
+alert("Document generation failed")
+})
+
+}
+
+const templates = document.querySelectorAll(".template-card");
+
+templates.forEach(card => {
+
+card.addEventListener("click", () => {
+
+const type = card.dataset.template;
+
+let text="";
+
+if(type==="rental")
+text="Create a rental agreement between landlord and tenant including rent amount, address and duration.";
+
+if(type==="lease")
+text="Create a lease agreement including tenant details, rent, property location and lease duration.";
+
+if(type==="sale")
+text="Create a property sale agreement between buyer and seller including property details and payment terms.";
+
+if(type==="nda")
+text="Create a Non Disclosure Agreement between two parties to protect confidential information.";
+
+if(type==="service")
+text="Create a service contract describing work scope, payment terms and responsibilities.";
+
+if(type==="partnership")
+text="Create a partnership agreement defining roles, responsibilities and profit sharing.";
+
+if(type==="freelance")
+text="Create a freelance contract including project scope, payment and deadlines.";
+
+if(type==="offer")
+text="Create an employment offer letter including position, salary and joining date.";
+
+if(type==="internship")
+text="Create an internship agreement including role, duration and stipend.";
+
+if(type==="resignation")
+text="Create a professional resignation letter for leaving a job.";
+
+if(type==="poa")
+text="Create a power of attorney authorizing someone to act legally on behalf of another person.";
+
+if(type==="affidavit")
+text="Create a legal affidavit declaring a sworn statement.";
+
+if(type==="authorization")
+text="Create an authorization letter allowing someone to act on behalf of another.";
+
+if(type==="loan")
+text="Create a loan agreement including lender, borrower, amount and repayment terms.";
+
+if(type==="payment")
+text="Create a payment agreement defining installment schedule and payment conditions.";
+
+if(type==="debt")
+text="Create a debt settlement agreement resolving outstanding debts between parties.";
+
+document.getElementById("prompt").value=text;
+
+window.scrollTo({
+top:document.querySelector(".ai-generator").offsetTop,
+behavior:"smooth"
+});
+
+});
+
+});
+
+const searchInput = document.getElementById("templateSearch");
+const templateCards = document.querySelectorAll(".template-card");
+
+searchInput.addEventListener("keyup", function(){
+
+const value = this.value.toLowerCase();
+
+templateCards.forEach(card=>{
+
+const text = card.innerText.toLowerCase();
+
+if(text.includes(value)){
+card.style.display="block";
+}else{
+card.style.display="none";
+}
+
+});
+
+});
+
+const observer=new IntersectionObserver(entries=>{
+ entries.forEach(entry=>{
+  if(entry.isIntersecting){
+   entry.target.classList.add("show")
+  }
+ })
+})
+
+document.querySelectorAll(".template-card,.tips,.faq,.ai-generator").forEach(el=>{
+ el.classList.add("hidden")
+ observer.observe(el)
+})
+</script>
+
+</body>
+</html>
